@@ -158,7 +158,7 @@ $(document).ready(function() {
     
     <div class="row mb-5" style="   max-width: 99%; margin: 1px auto;">
         <div class="col-md-12 col-12">
-            <div class="Ticket" >Ticket
+            <div class="Company" >Company
             </div>
             
         </div>
@@ -185,7 +185,7 @@ $(document).ready(function() {
             <div class="table_btn_list">
 
                 <div class="add_btn">
-                    <a href="{{ route('tickets.create') }}"> <span>+</span>New</a>
+                    <a href="{{ route('companyUsers.create') }}"> <span>+</span>New</a>
                 </div>
                 {{-- <div class="select_field">
                     <select class="clickable-element" id="name-search">
@@ -241,18 +241,9 @@ $(document).ready(function() {
                 <thead>
                     <tr>
                     <th class="thclass" scope="col">#</th>
-                    <th class="thclass"  scope="col">State</th>
-                    <th class="thclass"  scope="col">Ticket number</th>
-                    <th class="thclass"  scope="col">created_by</th>
-                    <th class="thclass"  scope="col">module_name</th>
-                    <th class="thclass"  scope="col">description</th>
-                    <th class="thclass"  scope="col">severity</th>
-                    <th class="thclass"  scope="col">incident_type</th>
+                    <th class="thclass"  scope="col">Company</th>
                     <th class="thclass"  scope="col">dateModified</th>
                     <th class="thclass"  scope="col">dateCreated</th>
-                    {{-- <th class="thclass"  scope="col">dev_notes</th> --}}
-                    {{-- <th class="thclass"  scope="col">user_comments</th> --}}
-                    {{-- <th class="thclass"  scope="col">attachments</th> --}}
                     <th class="thclass"  scope="col">Action</th>
 
                     </tr>
@@ -261,38 +252,18 @@ $(document).ready(function() {
                     $i=1;
                 @endphp
                 <tbody>
-                    @if($tickets!=null)
-                    @foreach ($tickets as $ticket)
+                    @if($companyUsers!=null)
+                    @foreach ($companyUsers as $company)
                         <tr>
-                          {{-- {{dd($ticket)}} --}}
+                          {{-- {{dd($company)}} --}}
                             <td class="tdclass">{{ $i}}</td>
-                            <td class="tdclass">{{ $ticket['state'] }}</td>
-                            <td class="tdclass">{{ $ticket['ticket_number'] }}</td>
-                            <td class="tdclass">{{ $ticket['created_by'] }}</td>
-                            <td class="tdclass">{{ $ticket['module_name'] }}</td>
-                            <td class="tdclass">{{ $ticket['description'] }}</td>
-                            <td class="tdclass">{{ $ticket['severity'] }}</td>
-                            <td class="tdclass">{{ $ticket['incident_type'] }}</td>
-                            <td class="tdclass">{{ $ticket['updated_at']->format("Y-m-d H:i:s") }}</td>
-                            <td class="tdclass">{{ $ticket['created_at']->format("Y-m-d H:i:s") }}</td>
-                            {{-- <td class="tdclass">{{ $ticket['dev_notes'] }}</td> --}}
-                            {{-- <td class="tdclass">{{ $ticket['user_comments'] }}</td> --}}
-                            {{-- <td class="tdclass">
-                              @php
-                              if ($ticket->attachments != null) {
-                                // dd($ticket->attachments);
-                                $tempTicket =  explode('/', $ticket['attachments']);
-                                  $imagePath = asset('storage/ticket/' . $tempTicket[1]);
-                                  // dd($imagePath);
-                                  echo "<img width='100' src='$imagePath' onclick='displayFullScreenImage(\"$imagePath\")' />";
-                              } else {
-                                  echo 'N/A';
-                              }
-                          @endphp
-                          </td>                             --}}
+                            <td class="tdclass">{{ $company['company_name'] }}</td>
+                            <td class="tdclass">{{ $company['updated_at'] }}</td>
+                            <td class="tdclass">{{ $company['created_at'] }}</td>
+                                    
                           <td class="tdclass">
                                         
-                                <form action={{ route('tickets.destroy', $ticket['id']) }} method="post">
+                                <form action={{ route('companies.destroy', $company['id']) }} method="post">
                                     @csrf
                                     @method('DELETE')
                                 
@@ -300,7 +271,7 @@ $(document).ready(function() {
                                     </button>
 
                                     {{-- <a href="{{ route('tickets.edit', [$i,$ticket['id']]) }}" class="px-4 py-2 border border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white">Edit</a> --}}
-                                    <a href="{{ route('ticket-edit', [$ticket['id']]) }}">E
+                                    <a href="{{ route('company-edit', [$company['id']]) }}">E
                                     </a>
                                     {{-- <a href="{{ route('tickets.edit', $ticket['id']) }}"><i class="fa fa-pencil-square-o text-secondary" aria-hidden="true"></i> --}}
                                     {{-- </a> --}}

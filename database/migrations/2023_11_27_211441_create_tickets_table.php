@@ -13,16 +13,16 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->String('state');
-            $table->String('ticket_number');
-            $table->String('created_by');
-            $table->String('module_name');
-            $table->String('description');
-            $table->String('severity');
-            $table->String('incident_type');
-            $table->String('dev_notes');
-            $table->String('user_comments');
-            $table->String('attachments');
+            $table->String('state')->nullable();
+            $table->String('ticket_number')->nullable();
+            $table->String('created_by')->nullable();
+            $table->String('module_name')->nullable();
+            $table->String('description')->nullable();
+            $table->String('severity')->nullable();
+            $table->String('incident_type')->nullable();
+            $table->String('dev_notes')->nullable();
+            $table->String('user_comments')->nullable();
+            $table->String('attachments')->nullable();
             $table->timestamps();
         });
     }

@@ -30,9 +30,10 @@
                             <!-- Left Side Of Navbar -->
                             <ul class="navbar-nav me-auto" style="display: block">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/') }}">
-                                        <img src="{{asset('assets\images\UO_logo.png')}}" alt="">
-                                    </a>
+                                    <a class="nav-link" href="{{ route('companies.index') }}">{{ __('Company') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('users.index') }}">{{ __('Users') }}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('tickets.index') }}">{{ __('Tickets') }}</a>
@@ -61,8 +62,15 @@
                                 <!-- Left Side Of Navbar -->
                                 <ul class="navbar-nav me-auto">
                                     <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('companies.index') }}">{{ __('Company') }}</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ route('users.index') }}">{{ __('Users') }}</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a class="nav-link" href="{{ route('tickets.index') }}">{{ __('Tickets') }}</a>
                                     </li>
+                                   
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('login') }}">{{ __('about') }}</a>
                                     </li>
