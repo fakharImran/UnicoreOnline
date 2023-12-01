@@ -19,17 +19,18 @@ use App\Http\Controllers\CompanyUserController;
 */
 
 Route::get('/', function () {
-    return redirect()->route('home');
+    return redirect()->route('companies.index');
 });
 
 Auth::routes();
+Route::group(['middleware' => ['auth']], function() {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::resource('tickets', TicketController::class);
+    Route::get('tickets/edit/{parameter?}', [TicketController::class, 'edit'])->name('ticket-edit');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('tickets', TicketController::class);
-Route::get('tickets/edit/{parameter?}', [TicketController::class, 'edit'])->name('ticket-edit');
+    Route::resource('companies', CompanyController::class);
+    Route::get('companies/edit/{parameter?}', [CompanyController::class, 'edit'])->name('company-edit');
 
-Route::resource('companies', CompanyController::class);
-Route::get('companies/edit/{parameter?}', [CompanyController::class, 'edit'])->name('company-edit');
-
-Route::resource('companyUsers', CompanyUserController::class);
-Route::get('companyUsers/edit/{parameter?}', [CompanyUserController::class, 'edit'])->name('companyUsers-edit');
+    Route::resource('companyUsers', CompanyUserController::class);
+    Route::get('companyUsers/edit/{parameter?}', [CompanyUserController::class, 'edit'])->name('companyUsers-edit');
+});
