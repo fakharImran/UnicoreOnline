@@ -316,7 +316,7 @@
                                       </div> --}}
                                       <div class="user_btn myborder">
                                         <button type="submit" class=" user_btn_style submit ">
-                                         <img src="{{asset('assets/images/next.png')}}" alt="->"> Update
+                                         <img src="{{asset('assets/images/next.png')}}" alt="->"> Save Changes
                                         </button>
                                       </div>
   

@@ -242,6 +242,11 @@ $(document).ready(function() {
                     <tr>
                     <th class="thclass" scope="col">#</th>
                     <th class="thclass"  scope="col">Company</th>
+                    <th class="thclass"  scope="col">Department</th>
+                    <th class="thclass"  scope="col">Email Address</th>
+                    <th class="thclass"  scope="col">First Name</th>
+                    <th class="thclass"  scope="col">Last Name</th>
+                    <th class="thclass"  scope="col">Access Privilege</th>
                     <th class="thclass"  scope="col">dateModified</th>
                     <th class="thclass"  scope="col">dateCreated</th>
                     <th class="thclass"  scope="col">Action</th>
@@ -252,18 +257,30 @@ $(document).ready(function() {
                     $i=1;
                 @endphp
                 <tbody>
+                    {{-- {{dd($companyUsers)}} --}}
                     @if($companyUsers!=null)
-                    @foreach ($companyUsers as $company)
+                    @foreach ($companyUsers as $companyUser)
                         <tr>
-                          {{-- {{dd($company)}} --}}
+                          {{-- {{dd($companyUser)}} --}}
                             <td class="tdclass">{{ $i}}</td>
-                            <td class="tdclass">{{ $company['company_name'] }}</td>
-                            <td class="tdclass">{{ $company['updated_at'] }}</td>
-                            <td class="tdclass">{{ $company['created_at'] }}</td>
+                            <td class="tdclass">{{ $companyUser->company->company_name }}</td>
+                            <td class="tdclass">{{ $companyUser->department }}</td>
+                            <td class="tdclass">{{ $companyUser->user->email }}</td>
+                            <td class="tdclass">
+                                @php
+                                    $name= explode(' ', $companyUser->user->name); //for first name and last name
+                                @endphp
+                                {{ $name[0]}}</td>
+
+                            <td class="tdclass">{{ $name[1] }}</td>
+
+                            <td class="tdclass">{{ $companyUser->access_privilege }}</td>
+                            <td class="tdclass">{{ $companyUser->updated_at }}</td>
+                            <td class="tdclass">{{ $companyUser->created_at}}</td>
                                     
                           <td class="tdclass">
                                         
-                                <form action={{ route('companies.destroy', $company['id']) }} method="post">
+                                <form action={{ route('companyUsers.destroy', $companyUser['id']) }} method="post">
                                     @csrf
                                     @method('DELETE')
                                 
@@ -271,7 +288,7 @@ $(document).ready(function() {
                                     </button>
 
                                     {{-- <a href="{{ route('tickets.edit', [$i,$ticket['id']]) }}" class="px-4 py-2 border border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white">Edit</a> --}}
-                                    <a href="{{ route('company-edit', [$company['id']]) }}">E
+                                    <a href="{{ route('companyUsers-edit', [$companyUser['id']]) }}">E
                                     </a>
                                     {{-- <a href="{{ route('tickets.edit', $ticket['id']) }}"><i class="fa fa-pencil-square-o text-secondary" aria-hidden="true"></i> --}}
                                     {{-- </a> --}}

@@ -33,7 +33,7 @@
                                     <a class="nav-link" href="{{ route('companies.index') }}">{{ __('Company') }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    {{-- <a class="nav-link" href="{{ route('users.index') }}">{{ __('Users') }}</a> --}}
+                                    <a class="nav-link" href="{{ route('companyUsers.index') }}">{{ __('Users') }}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('tickets.index') }}">{{ __('Tickets') }}</a>
@@ -65,7 +65,7 @@
                                         <a class="nav-link" href="{{ route('companies.index') }}">{{ __('Company') }}</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('users.index') }}">{{ __('Users') }}</a>
+                                        <a class="nav-link" href="{{ route('companyUsers.index') }}">{{ __('Users') }}</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="{{ route('tickets.index') }}">{{ __('Tickets') }}</a>
