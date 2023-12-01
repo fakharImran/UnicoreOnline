@@ -69,7 +69,7 @@
                                             <label>{{ __('Created By:') }}</label>
                                         </div>
                                         <div class="user_input_form">
-                                            <input type="email" class="form-control" id="created_by" value="Auth::user()->email" name="created_by" readonly autocomplete="created_by" autofocus  placeholder="Created By">
+                                            <input type="email" class="form-control" id="created_by" value="{{$user->email}}" name="created_by" readonly autocomplete="created_by" autofocus  placeholder="Created By">
                                             {{-- <input type="text" name="your_input_name" value="{{ generateUniqueString('CI') }}" readonly> --}}
 
                                         </div>

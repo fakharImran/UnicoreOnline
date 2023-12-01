@@ -36,7 +36,7 @@
                                           <label>{{ __('Company Name:') }}</label>
                                       </div>
                                         <div class="user_input_form">
-                                            <input type="text" class="form-control" id="company_name" {{$company['company_name']}} name="company_name" required autocomplete="company_name" autofocus  placeholder="Company Name">
+                                            <input type="text" class="form-control" id="company_name" value="{{$company['company_name']}}" name="company_name" required autocomplete="company_name" autofocus  placeholder="Company Name">
                                             {{-- <input type="text" name="your_input_name" value="{{ generateUniqueString('CI') }}" readonly> --}}
 
                                         </div>

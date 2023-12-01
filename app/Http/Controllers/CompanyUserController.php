@@ -20,7 +20,9 @@ class CompanyUserController extends Controller
     {
         $pageConfigs = ['pageSidebar' => 'company user'];    
         $companyUsers= CompanyUser::all();
-        return view('Admin.CompanyUser.index', compact('companyUsers'), ['pageConfigs' => $pageConfigs]);    }
+        $companies= Company::all();
+        
+        return view('Admin.CompanyUser.index', compact('companyUsers', 'companies'), ['pageConfigs' => $pageConfigs]);    }
 
     /**
      * Show the form for creating a new resource.

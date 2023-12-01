@@ -166,8 +166,8 @@
 
         <div class="row mb-5" style="   max-width: 99%; margin: 1px auto;">
             <div class="col-md-12 col-12">
-                <div class="Company">Company
-                </div>
+                {{-- <div class="Company">Company
+                </div> --}}
 
             </div>
             {{-- <div class="col-md-1 col-3"  style="margin: 1px auto;">
@@ -192,11 +192,18 @@
             <div class="col-12">
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Requests</a>
+                        <a class="nav-link active" aria-current="page" href="{{ route('companies.index') }}">Company</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('companyUsers.index') }}">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ route('tickets.index') }}">Requests</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Complete</a>
                     </li>
+                    
                 </ul>
             </div>
         </div>
@@ -208,24 +215,24 @@
                     <div class="add_btn me-2">
                         <a href="{{ route('companies.create') }}"> <span>+</span>New</a>
                     </div>
-                    {{-- <div class="select_field">
+                    <div class="select_field me-2">
                     <select class="clickable-element" id="name-search">
                         <option class="text-secondary" value="">Select Company</option>
-                        @if ($tickets != null)
-                        @foreach ($tickets->unique('company')->sort() as $company)
-                            <option value="{{ $company['company'] }}">{{ $company['company'] }}</option>
+                        @if ($companies != null)
+                        @foreach ($companies->unique('company_name')->sort() as $company)
+                            <option value="{{ $company['company_name'] }}">{{ $company['company_name'] }}</option>
                         @endforeach
                         @endif
                     </select>
-                    </div> --}}
-                    <div class="search_bar me-2">
+                    </div>
+                    {{-- <div class="search_bar me-2">
                         <div class="search_field">
                             <input id="customSearchInput" type="text" placeholder="">
                         </div>
                         <div class="search_btn">
                             <a> <img src="assets/images/search.png"> </a>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="total_ticket me-2">
                         <p class="custom-table-info">10 records in total</p>
                     </div>
@@ -279,7 +286,7 @@
                             <th class="thclass" scope="col">Company</th>
                             <th class="thclass" scope="col">dateModified</th>
                             <th class="thclass" scope="col">dateCreated</th>
-                            <th class="thclass" scope="col">Action</th>
+                            {{-- <th class="thclass" scope="col">Action</th> --}}
 
                         </tr>
                     </thead>
@@ -292,27 +299,23 @@
                                 <tr>
                                     {{-- {{dd($company)}} --}}
                                     <td class="tdclass">{{ $i }}</td>
-                                    <td class="tdclass">{{ $company['company_name'] }}</td>
+                                    <td class="tdclass"> <a href="{{ route('company-edit', [$company['id']]) }}">{{ $company['company_name'] }}
+                                    </a></td>
                                     <td class="tdclass">{{ $company['updated_at'] }}</td>
                                     <td class="tdclass">{{ $company['created_at'] }}</td>
 
-                                    <td class="tdclass">
-
+                                    {{-- <td class="tdclass">
                                         <form action={{ route('companies.destroy', $company['id']) }} method="post">
                                             @csrf
                                             @method('DELETE')
 
                                             <button class="submit delete-button">D
                                             </button>
-
-                                            {{-- <a href="{{ route('tickets.edit', [$i,$ticket['id']]) }}" class="px-4 py-2 border border-yellow-500 rounded-md hover:bg-yellow-500 hover:text-white">Edit</a> --}}
                                             <a href="{{ route('company-edit', [$company['id']]) }}">E
                                             </a>
-                                            {{-- <a href="{{ route('tickets.edit', $ticket['id']) }}"><i class="fa fa-pencil-square-o text-secondary" aria-hidden="true"></i> --}}
-                                            {{-- </a> --}}
                                         </form>
 
-                                    </td>
+                                    </td> --}}
                                 </tr>
                                 @php
                                     $i++;

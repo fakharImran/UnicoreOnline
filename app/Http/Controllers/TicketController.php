@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Validator;
 use App\Models\Ticket;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +18,10 @@ class TicketController extends Controller
     {
          $pageConfigs = ['pageSidebar' => 'ticket'];    
         $tickets= Ticket::all();
-        return view('Admin.Tickets.index', compact('tickets'), ['pageConfigs' => $pageConfigs]);
+        $companies= Company::all();
+
+
+        return view('Admin.Tickets.index', compact('tickets', 'companies'), ['pageConfigs' => $pageConfigs]);
 
     }
 
@@ -26,8 +30,10 @@ class TicketController extends Controller
      */
     public function create()
     {
-        $pageConfigs = ['pageSidebar' => 'ticket'];    
-        return view('Admin.Tickets.create', ['pageConfigs' => $pageConfigs]);
+        $pageConfigs = ['pageSidebar' => 'ticket'];  
+        $user= Auth::user();
+
+        return view('Admin.Tickets.create',compact('user'), ['pageConfigs' => $pageConfigs]);
     }
 
     /**
@@ -86,6 +92,7 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
+
         $pageConfigs = ['pageSidebar' => 'ticket'];    
         $ticket = Ticket::findOrFail($id);
         // dd($ticket);
