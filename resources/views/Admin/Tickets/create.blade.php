@@ -4,11 +4,11 @@
   <div class="site-wrapper">
     <div class="admin_form">
         <div class="container">
-            <div class="row">
-                <div class="col-md-12">
+            <div class="row justify-content-center">
+                <div class="col-md-9">
                     <div class="admin_box">
 
-                      <div class="tab_title">
+                        <div class="tab_title mb-5">
                         <h3>Ticket</h3>
                       </div>
                       
@@ -284,10 +284,9 @@
                                         </section>
                                     </div> --}}
                     
-                                    <div class="form_title" style="
+                                    <div class="form_title mb-5 pb-2 mt-4" style="
                                         border-bottom: 1px solid #1155CC;
-                                        padding-bottom: 5px;
-                                        margin-bottom: 20px;">
+                                       ">
                                         <h4>Attachment (Optional)</h4>
                                     </div>
                                     

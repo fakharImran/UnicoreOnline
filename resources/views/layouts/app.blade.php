@@ -17,17 +17,20 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @yield('top_links')
+
 </head>
 
-<body>
+<body class="bg-light">
     <div class="row w-100 m-0">
         @guest
             <div class="col-md-12 p-0">
 
         @else
             <div class="col-md-2 p-0 ">
-                <div class="card  bg-white shadow-sm" style="min-height: 100vh">
-                    <nav class="navbar navbar-expand-md navbar-light p-3 d-block">
+                <div class="card  bg-white shadow-sm" style="min-height: 100vh;     position: fixed;
+                width: 16.66666667%;">
+                    <nav class="navbar navbar-expand-md navbar-light p-4 d-block">
                         <div class="w-100 mb-5">
                             <a class="navbar-brand " href="{{ url('/') }}">
                                 <img src="{{ asset('/assets/images/UO_logo.png') }}" alt="Logo">
@@ -39,19 +42,19 @@
                             <!-- Left Side Of Navbar -->
                             <ul class="navbar-nav me-auto w-100" style="display: block">
                                 <li class="nav-item d-flex w-100 mt-4 h4">
-                                    <img src="{{ asset('/assets/images/company.svg') }}" width="30" alt="company_logo">
+                                    <img src="{{ asset('/assets/images/company.svg') }}" height="35" width="30" alt="company_logo">
                                     <a class="nav-link ms-3" href="{{ route('companies.index') }}">{{ __('Company') }}</a>
                                 </li>
                                 <li class="nav-item d-flex w-100 mt-4 h4">
-                                    <img src="{{ asset('/assets/images/user.svg') }}" width="30" alt="user_logo">
+                                    <img src="{{ asset('/assets/images/user.svg') }}" height="35" width="30" alt="user_logo">
                                     <a class="nav-link ms-3" href="{{ route('companyUsers.index') }}">{{ __('Users') }}</a>
                                 </li>
                                 <li class="nav-item d-flex w-100 mt-4 h4">
-                                    <img src="{{ asset('/assets/images/ticket.svg') }}" width="30" alt="ticket_logo">
+                                    <img src="{{ asset('/assets/images/ticket.svg') }}" height="35" width="30" alt="ticket_logo">
                                     <a class="nav-link ms-3" href="{{ route('tickets.index') }}">{{ __('Tickets') }}</a>
                                 </li>
                                 <li class="nav-item d-flex w-100 mt-4 h4">
-                                    <img src="{{ asset('/assets/images/logout.svg') }}" width="30" alt="logout_logo">
+                                    <img src="{{ asset('/assets/images/logout.svg') }}" height="35" width="30" alt="logout_logo">
                                     <a class="nav-link ms-3" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">
@@ -97,6 +100,7 @@
             </div>
         </div>
     </div>
+    @yield('bottom_links')
 </body>
 
 </html>

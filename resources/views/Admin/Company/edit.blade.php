@@ -4,11 +4,11 @@
   <div class="site-wrapper">
     <div class="admin_form">
         <div class="container">
-            <div class="row">
-                <div class="col-md-12">
+            <div class="row justify-content-center">
+                <div class="col-md-9">
                     <div class="admin_box">
 
-                      <div class="tab_title">
+                        <div class="tab_title mb-5">
                         <h3>Ticket</h3>
                       </div>
                       
