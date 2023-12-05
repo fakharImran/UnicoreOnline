@@ -158,9 +158,9 @@ $(document).ready(function() {
     
     <div class="row mb-5" style="   max-width: 99%; margin: 1px auto;">
         <div class="col-md-12 col-12">
-            <div class="Company" >Company
+            {{-- <div class="Company" >Company
             </div>
-            
+             --}}
         </div>
         {{-- <div class="col-md-1 col-3"  style="margin: 1px auto;">
             <div class="add_btn">
@@ -268,7 +268,7 @@ $(document).ready(function() {
                         <tr>
                           {{-- {{dd($companyUser)}} --}}
                             <td class="tdclass">{{ $i}}</td>
-                            <td class="tdclass"> <a href="{{ route('companyUsers-edit', [$companyUser['id']]) }}">{{ $companyUser->company->company_name }}
+                            <td class="tdclass"> <a href="{{ route('companyUsers-edit', [$companyUser['id']]) }}" class="custom-link">{{ $companyUser->company->company_name }}
                             </a></td>
                             <td class="tdclass">{{ $companyUser->department }}</td>
                             <td class="tdclass">{{ $companyUser->user->email }}</td>

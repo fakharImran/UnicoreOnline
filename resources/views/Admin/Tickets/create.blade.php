@@ -4,11 +4,11 @@
     <div class="site-wrapper">
         <div class="admin_form">
             <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
+                <div class="row justify-content-center">
+                    <div class="col-md-9">
                         <div class="admin_box">
 
-                            <div class="tab_title">
+                            <div class="tab_title mb-5">
                                 <h3>Ticket</h3>
                             </div>
 
@@ -30,6 +30,7 @@
                                         <div class="form_title">
                                             <h4>General</h4>
                                         </div>
+
 
                                         <div class="user_form_content">
                                             <div class="label">
@@ -63,7 +64,7 @@
                                                 <input type="text" class="form-control" id="ticket_number"
                                                     value="{{ generateUniqueString('ABC') }}" name="ticket_number" readonly
                                                     autocomplete="ticket_number" autofocus placeholder="Ticket Number">
-                                                    {{-- <input type="text" class="form-control" id="ticket_number"
+                                                {{-- <input type="text" class="form-control" id="ticket_number"
                                                     value="" name="ticket_number"
                                                     autocomplete="ticket_number" autofocus placeholder="Ticket Number"> --}}
                                                 {{-- <input type="text" name="your_input_name" value="{{ generateUniqueString('CI') }}" readonly> --}}
@@ -163,20 +164,20 @@
                                         </div>
                                         <div class="card">
                                             <div class="card-body p-4" id="repeater-container">
-                                               
-                                                    <div>
-                                                        <div class="user_form_content">
-                                                            
-                                                            <div class="user_input_form">
-                                                                <textarea class="form-control" id="user_comments" value="" name="user_comments[]" autocomplete="user_comments"
-                                                                    autofocus></textarea>
-                                                            </div>
-                                                        </div>
 
-                                                        <div class="  clickable-element p-1 btn btn-danger"
-                                                            onclick="removeRepeaterItem(this)">Delete</div>
-                                                        <hr>
+                                                <div>
+                                                    <div class="user_form_content">
+
+                                                        <div class="user_input_form">
+                                                            <textarea class="form-control" id="user_comments" value="" name="user_comments[]"
+                                                                autocomplete="user_comments" autofocus></textarea>
+                                                        </div>
                                                     </div>
+
+                                                    <div class="  clickable-element p-1 btn btn-danger"
+                                                        onclick="removeRepeaterItem(this)">Delete</div>
+                                                    <hr>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -200,13 +201,13 @@
                                                 repeaterContainer.appendChild(newItem);
                                                 initMap();
                                             }
-                                        
-                                        
+
+
                                             function removeRepeaterItem(button) {
                                                 button.parentElement.remove();
                                             }
                                         </script>
-                                        
+
                                         <div class="mb-5 p-3">
                                             <div class=" user_btn myborder label float-end">
                                                 <div class=" user_btn_style submit clickable-element"
@@ -214,156 +215,14 @@
                                             </div>
                                         </div>
 
-                                        {{--                                 
-                                        <div class="user_form_content">
-                                        <div class="label">
-                                            <label>{{ __('User Comments:') }}</label>
-                                        </div>
-                                        <div class="user_input_form">
-                                            <textarea  class="form-control" id="user_comments" value="" name="user_comments" autocomplete="user_comments" autofocus  ></textarea>
-                                        </div>
-                                        </div> --}}
-                                        {{-- <div class="user_form_content">
-
-                                        <section class="form-control-repeater  caregiver-repeater">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="card">
-                                                        <div class="card-header">
-                                                            <h4 class="card-title">Address<span class ="staric">*</span></h4>
-                                                        </div>
-                                                        <div class="card-body">
-                                
-                                                                <div data-repeater-list="address">
-                                                                    <div data-repeater-item class="list-item">
-                                                                        <div class="row d-flex align-items-end">
-                                                                            <div class="col-md-2 col-12">
-                                                                                <div class="mb-1">
-                                                                                    <label class="form-label" for="address_line1">Address Line 1</label>
-                                                                                    <input type="text" class="form-control" id="address_line1"
-                                                                                        aria-describedby="address_line1" placeholder="Address Line 1"
-                                                                                        name="address_line1"
-                                                                                        
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-2 col-12">
-                                                                                <div class="mb-1">
-                                                                                    <label class="form-label" for="address_line2">Address Line 2</label>
-                                                                                    <input
-                                                                                        type="text" class="form-control" id="address_line2"
-                                                                                        aria-describedby="address_line2" placeholder="Address Line 2"
-                                                                                        name="address_line2"
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-2 col-12">
-                                                                                <div class="mb-1">
-                                                                                    <label class="form-label" for="City">City</label>
-                                                                                    <input
-                                                                                        type="text" class="form-control" id="city"
-                                                                                        aria-describedby="city" placeholder="city"
-                                                                                        name="city"
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-2 col-12">
-                                                                                <div class="mb-1">
-                                                                                    <label class="form-label" for="state">State</label>
-                                                                                    <input
-                                                                                        type="text" class="form-control" id="state"
-                                                                                        aria-describedby="state" placeholder="state"
-                                                                                        name="state" required
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-2 col-12">
-                                                                                <div class="mb-1">
-                                                                                    <label class="form-label" for="country">Country</label>
-                                                                                    <select class="form-select" id="country" name="country">
-                                                                                        <option>Select Country</option>
-                                                                                        <option value="usa">USA</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-2 col-12">
-                                                                                <div class="mb-1">
-                                                                                    <label class="form-label" for="zip_code">Zip Code<span class="staric">*</span></label>
-                                                                                    <input type="text" class="form-control" id="zip_code"
-                                                                                        aria-describedby="zip_code" placeholder="xxxx-xxxx"
-                                                                                        name="zip_code" required/>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-3 col-12">
-                                                                                <div class="mb-1">
-                                                                                    <label class="form-label" for="cross_street">Cross Street</label>
-                                                                                    <input
-                                                                                        type="text" class="form-control" id="cross_street"
-                                                                                        aria-describedby="cross_street" placeholder="cross Street"
-                                                                                        name="cros_street"
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-1 col-6">
-                                                                                <div class="mt-2">
-                                                                                    <div class="form-check form-check-inline">
-                                                                                        <input class="form-check-input" type="checkbox" id="add_primary" value="Primary" name="add_primary" />
-                                                                                        <label class="form-check-label" for="add_primary">Primary</label>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-3 mb-1">
-                                                                                <label class="form-label" for="address_type">Address Type</label>
-                                                                                <select class="select2 form-select" id="address_type" value="" multiple name="address_type">
-                                                                                        <option value="GPS">GPS</option>
-                                                                                        <option value="Home">Home</option>
-                                                                                        <option value="Community">Community</option>
-                                                                                </select>
-                                                                            </div>
-                                                                            <div class="col-md-3 col-12">
-                                                                                <div class="mb-1">
-                                                                                    <label class="form-label" for="add_note">Note</label>
-                                                                                    <textarea
-                                                                                        class="form-control" id="add_note"
-                                                                                        rows="1" placeholder="Note" name="add_note"
-                                                                                    ></textarea>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-2 col-12 mb-50">
-                                                                                <div class="mt-2">
-                                                                                    <button class="btn btn-outline-danger text-nowrap px-1 delete-repeater" data-repeater-delete type="button">
-                                                                                        <i data-feather="x" class="me-25"></i>
-                                                                                        <span>Delete</span>
-                                                                                    </button>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                        <hr />
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-12">
-                                                                        <button class="btn btn-icon btn-primary" type="button" data-repeater-create>
-                                                                            <i data-feather="plus" class="me-25"></i>
-                                                                            <span>Add New</span>
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- /Invoice repeater -->
-                                            </div>
-                                        </section>
-                                        </div> --}}
-
-                                        <div class="form_title"
+                                        <div class="form_title mb-5 pb-2 mt-4"
                                             style="
                                         border-bottom: 1px solid #1155CC;
-                                        padding-bottom: 5px;
-                                        margin-bottom: 20px;">
+                                       ">
                                             <h4>Attachment (Optional)</h4>
                                         </div>
+
+
 
                                         <div class="user_form_content">
                                             <div class="label">
@@ -409,28 +268,28 @@
                 </div>
             </div>
             @php
-            function generateRandomNumber()
-            {
-                // Generate a random number with a length of 4 digits
-                return str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
-            }
+                function generateRandomNumber()
+                {
+                    // Generate a random number with a length of 4 digits
+                    return str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+                }
 
-            function generateUniqueString($companyInitials)
-            {
-                // Get the current year
-                $currentYear = date('Y');
+                function generateUniqueString($companyInitials)
+                {
+                    // Get the current year
+                    $currentYear = date('Y');
 
-                // Generate a random number
-                $randomNumber = generateRandomNumber();
+                    // Generate a random number
+                    $randomNumber = generateRandomNumber();
 
-                // Combine the elements to create the final string
-                $result = "{$companyInitials}-{$currentYear}-{$randomNumber}";
+                    // Combine the elements to create the final string
+                    $result = "{$companyInitials}-{$currentYear}-{$randomNumber}";
 
-                return $result;
-            }
-        @endphp
+                    return $result;
+                }
+            @endphp
         </div>
-        
+
     </div>
     {{-- @php
     function generateRandomNumber()
@@ -456,4 +315,3 @@
 
 
 @endsection
-
