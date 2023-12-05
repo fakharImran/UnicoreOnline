@@ -117,18 +117,18 @@ img.next-prev-icon-style {
     align-items: center;
 }
 .user_input_form {
-    width: 80%;
+    width: 100%;
 }
 .height-30px{
     height:30px !important;
 }
-#repeater-container {
+/* #repeater-container {
     width: 446px;
     min-height: 40px;
     border: 1px solid #ccc;
     padding: 5px;
     margin: 0;
-}
+} */
 .user_input_form_60{
     width: 60%;
 
@@ -158,7 +158,7 @@ img.next-prev-icon-style {
 }
 
 .user_select_form, .password_des {
-    width: 80%;
+    width: 100%;
 }
 
 input, select:focus-visible{

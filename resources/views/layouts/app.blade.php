@@ -43,25 +43,25 @@
                             <!-- Left Side Of Navbar -->
                             <ul class="navbar-nav me-auto w-100" style="display: block">
                                 @can('company-index')
-                                    <li class="nav-item d-flex w-100 mt-4 h4">
-                                        <img src="{{ asset('/assets/images/company.svg') }}" height="35" width="30" alt="company_logo">
+                                    <li class="nav-item d-flex w-100 mt-4 h5">
+                                        <img src="{{ asset('/assets/images/company.svg') }}" height="30" width="25" alt="company_logo">
                                         <a class="nav-link ms-3" href="{{ route('companies.index') }}">{{ __('Company') }}</a>
                                     </li>
                                 @endcan
                                 @can('user-index')
-                                    <li class="nav-item d-flex w-100 mt-4 h4">
-                                        <img src="{{ asset('/assets/images/user.svg') }}" height="35" width="30" alt="user_logo">
+                                    <li class="nav-item d-flex w-100 mt-4 h5">
+                                        <img src="{{ asset('/assets/images/user.svg') }}" height="30" width="25" alt="user_logo">
                                         <a class="nav-link ms-3" href="{{ route('companyUsers.index') }}">{{ __('Users') }}</a>
                                     </li>
                                 @endcan
                                 @can('ticket-index')
-                                    <li class="nav-item d-flex w-100 mt-4 h4">
-                                        <img src="{{ asset('/assets/images/ticket.svg') }}" height="35" width="30" alt="ticket_logo">
+                                    <li class="nav-item d-flex w-100 mt-4 h5">
+                                        <img src="{{ asset('/assets/images/ticket.svg') }}" height="30" width="25" alt="ticket_logo">
                                         <a class="nav-link ms-3" href="{{ route('tickets.index') }}">{{ __('Tickets') }}</a>
                                     </li>
                                 @endcan
-                                <li class="nav-item d-flex w-100 mt-4 h4">
-                                    <img src="{{ asset('/assets/images/logout.svg') }}" height="35" width="30" alt="logout_logo">
+                                <li class="nav-item d-flex w-100 mt-4 h5">
+                                    <img src="{{ asset('/assets/images/logout.svg') }}" height="30" width="25" alt="logout_logo">
                                     <a class="nav-link ms-3" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">
