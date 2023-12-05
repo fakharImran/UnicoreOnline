@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -19,9 +20,18 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Create permissions
         $permissions = [
-            'create-post',
-            'edit-post',
-            'delete-post',
+            'company-index',
+            'company-create',
+            'company-edit',
+            'company-delete',
+            'user-index',
+            'user-create',
+            'user-edit',
+            'user-delete',
+            'ticket-index',
+            'ticket-create',
+            'ticket-edit',
+            'ticket-delete',
         ];
 
         foreach ($permissions as $permission) {
@@ -30,10 +40,27 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Create roles and assign permissions
         $role = Role::create(['name' => 'admin']);
-        $role->givePermissionTo('create-post', 'edit-post', 'delete-post');
+        $role->givePermissionTo(
+            'company-index',
+            'company-create',
+            'company-edit',
+            'company-delete',
+            'user-index',
+            'user-create',
+            'user-edit',
+            'user-delete',
+            'ticket-index',
+            'ticket-create',
+            'ticket-edit',
+            'ticket-delete',
+        );  
 
-        $role = Role::create(['name' => 'manager']);
-        $role->givePermissionTo('create-post', 'edit-post');
+        $role = Role::create(['name' => 'user']);
+        $role->givePermissionTo(
+            'ticket-index',
+            'ticket-create',
+            'ticket-edit',
+        );
 
       
     }

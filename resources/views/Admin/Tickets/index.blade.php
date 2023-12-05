@@ -100,7 +100,7 @@
                 if (currentPage >= 0) {
                     $paginationContainer.append(
                         `<img class=" clickable-element next-prev-icon-style custom-page-btn prev" src="{{ asset('assets/images/privious.png') }}"> ${pageInfo.start + 1} `
-                        );
+                    );
                 }
                 //   for (var i = 0; i < totalPages; i++) {
                 //     var activeClass = currentPage === i ? 'active' : '';
@@ -110,7 +110,7 @@
                 if (currentPage <= totalPages - 1) {
                     $paginationContainer.append(
                         `- ${pageInfo.end} <img  class=" clickable-element next-prev-icon-style custom-page-btn next"  src="{{ asset('assets/images/next.png') }}">`
-                        );
+                    );
                 }
 
                 $('.custom-page-btn').on('click', function() {
@@ -162,8 +162,8 @@
 @endsection
 
 @section('content')
+    {{-- {{dd($companies->count())}} --}}
     <div class="container">
-
         <div class="row mb-5" style="   max-width: 99%; margin: 1px auto;">
             <div class="col-md-12 col-12">
                 {{-- <div class="Ticket">Ticket
@@ -201,50 +201,63 @@
             </div>
         </div>
         <div class="row mt-4" style="    max-width: 99%; margin: 1px auto; font-size: 12px;">
-          <div class="col-12">
-            <div class="table_btn_list">
+            <div class="col-12">
+                <div class="table_btn_list">
 
-                <div class="add_btn me-2">
-                    <a href="{{ route('tickets.create') }}"> <span>+</span>New</a>
-                </div>
-                <div class="select_field me-2">
-                    <select class="clickable-element" id="name-search">
-                        <option class="text-secondary" value="">Select Company</option>
-                        @if($companies!=null)
-                        @foreach ($companies->unique('company_name')->sort() as $company)
-                            <option value="{{ $company['company_name'] }}">{{ $company['company_name'] }}</option>
-                        @endforeach
-                        @endif
-                    </select>
-                </div>
-            
-                <div class="total_ticket me-2">
-                    <p class="custom-table-info">10 records in total</p>
-                </div>
-                <div class="pagination_links custom-pagination me-2">
-                    <div class="d-flex clickable-element" id="previous"><img class="next-prev-icon-style" src="{{asset('assets/images/privious.png')}}"><div class="start_page">1</div></div>
-                    <div class="d-flex clickable-element"  id="next"> <div class="end_page"> 10 </div> <img  class="next-prev-icon-style"  src="{{asset('assets/images/next.png')}}"></div>
-                </div>
-            
-                <div class="total_num clickable-element me-2">
-                    <div class="custom-button">
-                        <a class=" dropdown-toggle"data-toggle="dropdown">
-                          <span class="current_pages">10</span> 
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <div class="dropdown-item"  data-length="10">10</div>
-                          <div class="dropdown-item"  data-length="25">25</div>
-                          <div class="dropdown-item"  data-length="50">50</div>
-                          <div class="dropdown-item"  data-length="100">100</div>
+                    <div class="add_btn me-2">
+                        <a href="{{ route('tickets.create') }}"> <span>+</span>New</a>
+                    </div>
+                    <div class="select_field me-2">
+                        <select class="clickable-element" id="name-search">
+                            <option class="text-secondary" value="">Select Company</option>
+                            @if ($companies != null)
+                                @if (isset($companies->company_name))
+                                    <option value="{{ $companies['company_name'] }}">{{ $companies['company_name'] }}
+                                    </option>
+                                @else
+                                    @foreach ($companies->unique('company_name')->sort() as $company)
+                                        <option value="{{ $company['company_name'] }}">{{ $company['company_name'] }}
+                                        </option>
+                                    @endforeach
+                                @endif
+                            @endif
+                        </select>
+                    </div>
+
+                    <div class="total_ticket me-2">
+                        <p class="custom-table-info">10 records in total</p>
+                    </div>
+                    <div class="pagination_links custom-pagination me-2">
+                        <div class="d-flex clickable-element" id="previous"><img class="next-prev-icon-style"
+                                src="{{ asset('assets/images/privious.png') }}">
+                            <div class="start_page">1</div>
                         </div>
-                      </div>
-                      
+                        <div class="d-flex clickable-element" id="next">
+                            <div class="end_page"> 10 </div> <img class="next-prev-icon-style"
+                                src="{{ asset('assets/images/next.png') }}">
+                        </div>
+                    </div>
+
+                    <div class="total_num clickable-element me-2">
+                        <div class="custom-button">
+                            <a class=" dropdown-toggle"data-toggle="dropdown">
+                                <span class="current_pages">10</span>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <div class="dropdown-item" data-length="10">10</div>
+                                <div class="dropdown-item" data-length="25">25</div>
+                                <div class="dropdown-item" data-length="50">50</div>
+                                <div class="dropdown-item" data-length="100">100</div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
-        </div>
             {{-- {{dd($tickets)}} --}}
             <div class="col-12" style="margin: 1px auto; ">
-              <table id="customDataTable" class="table  datatable table-bordered table-hover table-responsive  nowrap" style="width:100%">
+                <table id="customDataTable" class="table  datatable table-bordered table-hover table-responsive  nowrap"
+                    style="width:100%">
 
                     <thead>
                         <tr>
@@ -261,8 +274,9 @@
                             {{-- <th class="thclass"  scope="col">dev_notes</th> --}}
                             {{-- <th class="thclass"  scope="col">user_comments</th> --}}
                             {{-- <th class="thclass"  scope="col">attachments</th> --}}
-                            {{-- <th class="thclass" scope="col">Action</th> --}}
-
+                            @if ($user->hasRole('admin'))
+                            <th class="thclass" scope="col">Action</th>
+                            @endif
                         </tr>
                     </thead>
                     @php
@@ -274,8 +288,9 @@
                                 <tr>
                                     {{-- {{dd($ticket)}} --}}
                                     <td class="tdclass">{{ $i }}</td>
-                                    <td class="tdclass"> <a href="{{ route('ticket-edit', [$ticket['id']]) }}">{{ $ticket['state'] }}
-                                    </a></td>
+                                    <td class="tdclass"> <a
+                                            href="{{ route('ticket-edit', [$ticket['id']]) }}">{{ $ticket['state'] }}
+                                        </a></td>
                                     <td class="tdclass">{{ $ticket['ticket_number'] }}</td>
                                     <td class="tdclass">{{ $ticket['created_by'] }}</td>
                                     <td class="tdclass">{{ $ticket['module_name'] }}</td>
@@ -299,18 +314,21 @@
                               }
                           @endphp
                           </td>                             --}}
-                                    {{-- <td class="tdclass">
-                                        <form action={{ route('tickets.destroy', $ticket['id']) }} method="post">
-                                            @csrf
-                                            @method('DELETE')
+                                    @if ($user->hasRole('admin'))
+                                        <td class="tdclass">
+                                            <form action={{ route('tickets.destroy', $ticket['id']) }} method="post">
+                                                @csrf
+                                                @method('DELETE')
 
-                                            <button class="submit delete-button">D
-                                            </button>
-                                            <a href="{{ route('ticket-edit', [$ticket['id']]) }}">E
-                                            </a>
-                                        </form>
+                                                <button class="submit delete-button">D
+                                                </button>
+                                                <a href="{{ route('ticket-edit', [$ticket['id']]) }}">E
+                                                </a>
+                                            </form>
 
-                                    </td> --}}
+                                        </td>
+                                    @endif
+
                                 </tr>
                                 @php
                                     $i++;

@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Company extends Model
 {
@@ -13,4 +15,13 @@ class Company extends Model
     protected $fillable= [
         'company_name'
     ];
+    /**
+     * Get all of the tickets for the Company
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class, 'company_id');
+    }
 }

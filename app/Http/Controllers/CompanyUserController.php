@@ -15,6 +15,18 @@ class CompanyUserController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:user-index|user-create|user-edit|user-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+    }
+    /**
+     * Display a listing of the resource.
      */
     public function index()
     {
@@ -40,8 +52,6 @@ class CompanyUserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-         // dd($request->all());
          $this->validate($request, [
             'company_id' => 'required',
             'department' => 'required',
@@ -63,6 +73,8 @@ class CompanyUserController extends Controller
     
        
         $user = User::create($input);
+        $user->assignRole('user');
+
         
         $tempUser= new CompanyUser();
        

@@ -18,13 +18,17 @@ use App\Http\Controllers\CompanyUserController;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('companies.index');
-});
+
 
 Auth::routes();
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::group(['middleware' => ['auth']], function() {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    Route::get('/', function () {
+        return redirect()->route('tickets.index');
+    });
+    
     Route::resource('tickets', TicketController::class);
     Route::get('tickets/edit/{parameter?}', [TicketController::class, 'edit'])->name('ticket-edit');
 

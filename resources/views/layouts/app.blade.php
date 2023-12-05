@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{asset('assets/images/UO_logo.png')}}" type="image/x-icon">
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -38,19 +39,25 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <!-- Left Side Of Navbar -->
                             <ul class="navbar-nav me-auto w-100" style="display: block">
-                                <li class="nav-item d-flex w-100 mt-4 h4">
-                                    <img src="{{ asset('/assets/images/company.svg') }}" width="30" alt="company_logo">
-                                    <a class="nav-link ms-3" href="{{ route('companies.index') }}">{{ __('Company') }}</a>
-                                </li>
-                                <li class="nav-item d-flex w-100 mt-4 h4">
-                                    <img src="{{ asset('/assets/images/user.svg') }}" width="30" alt="user_logo">
-                                    <a class="nav-link ms-3" href="{{ route('companyUsers.index') }}">{{ __('Users') }}</a>
-                                </li>
-                                <li class="nav-item d-flex w-100 mt-4 h4">
-                                    <img src="{{ asset('/assets/images/ticket.svg') }}" width="30" alt="ticket_logo">
-                                    <a class="nav-link ms-3" href="{{ route('tickets.index') }}">{{ __('Tickets') }}</a>
-                                </li>
-                                <li class="nav-item d-flex w-100 mt-4 h4">
+                                @can('company-index')
+                                    <li class="nav-item d-flex w-100 mt-4 h5">
+                                        <img src="{{ asset('/assets/images/company.svg') }}" width="30" alt="company_logo">
+                                        <a class="nav-link ms-3" href="{{ route('companies.index') }}">{{ __('Company') }}</a>
+                                    </li>
+                                @endcan
+                                @can('user-index')
+                                    <li class="nav-item d-flex w-100 mt-4 h5">
+                                        <img src="{{ asset('/assets/images/user.svg') }}" width="30" alt="user_logo">
+                                        <a class="nav-link ms-3" href="{{ route('companyUsers.index') }}">{{ __('Users') }}</a>
+                                    </li>
+                                @endcan
+                                @can('ticket-index')
+                                    <li class="nav-item d-flex w-100 mt-4 h5">
+                                        <img src="{{ asset('/assets/images/ticket.svg') }}" width="30" alt="ticket_logo">
+                                        <a class="nav-link ms-3" href="{{ route('tickets.index') }}">{{ __('Tickets') }}</a>
+                                    </li>
+                                @endcan
+                                <li class="nav-item d-flex w-100 mt-4 h5">
                                     <img src="{{ asset('/assets/images/logout.svg') }}" width="30" alt="logout_logo">
                                     <a class="nav-link ms-3" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();

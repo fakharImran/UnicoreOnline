@@ -13,15 +13,38 @@ class TicketController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    function __construct()
+    {
+        $this->middleware('permission:ticket-index|ticket-create|ticket-edit|ticket-delete', ['only' => ['index', 'store']]);
+        $this->middleware('permission:ticket-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:ticket-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:ticket-delete', ['only' => ['destroy']]);
+    }
+    /**
+     * Display a listing of the resource.
      */
     public function index()
     {
          $pageConfigs = ['pageSidebar' => 'ticket'];    
-        $tickets= Ticket::all();
-        $companies= Company::all();
+         $user = Auth::user();
+        if(Auth::user()->hasRole('admin')){
+            $tickets= Ticket::all();
+            $companies= Company::all();
+            // dd($companies);
+        }
+        else{
+            $companies = $user->companyUser->company; //for getting single company
+            $tickets = $companies->tickets;
+            // dd($tickets);
+
+        }
+        // dd($companies);
 
 
-        return view('Admin.Tickets.index', compact('tickets', 'companies'), ['pageConfigs' => $pageConfigs]);
+        return view('Admin.Tickets.index', compact('user','tickets', 'companies'), ['pageConfigs' => $pageConfigs]);
 
     }
 
@@ -59,8 +82,22 @@ class TicketController extends Controller
                     // Validation failed
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
-                $tempTicket= Ticket::create($request->all());
-                // dd($request->hasFile('attachments'));
+                $user= Auth::user();
+                $company_id= $user->companyUser->company->id;
+                $tempTicket = new Ticket();
+                $tempTicket->company_id=$company_id;
+                $tempTicket->state = $request->state ?? null;
+                $tempTicket->ticket_number = $request->ticket_number ?? null;
+                $tempTicket->created_by = $request->created_by ?? null;
+                $tempTicket->module_name = $request->module_name ?? null;
+                $tempTicket->description = $request->description ?? null;
+                $tempTicket->severity = $request->severity ?? null;
+                $tempTicket->incident_type = $request->incident_type ?? null;
+                $tempTicket->dev_notes = $request->dev_notes ?? null;
+                $tempTicket->user_comments = json_encode($request->user_comments);
+
+                $tempTicket->save();
+                // dd($tempTicket);
                 if($request->hasFile('attachments'))
                 {
                     $url = $request->file('attachments')->store('ticket', 'public');
@@ -111,8 +148,8 @@ class TicketController extends Controller
             'description' => 'required',
             'severity' => 'required',
             'incident_type' => 'required',
-            'dev_notes' => 'required',
-            'user_comments' => 'required',
+            // 'dev_notes' => 'required',
+            // 'user_comments' => 'required',
             // 'attachments' => 'required|mimes:xlsx,xls,png,doc,docx,pdf,jpeg,jpg|max:100000',
         ]);
 
@@ -122,10 +159,24 @@ class TicketController extends Controller
         }
             // Find the ticket by ID
             $tempTicket = Ticket::findOrFail($id);
+            // Find the store by its ID
+            if (!$tempTicket) {
+                // Handle the case where the store with the given ID is not found
+                return redirect()->route('tickets.index')->with('error', 'Ticket not found.');
+            }
 
-            // Update the ticket with the new data
-            $tempTicket->update($request->all());
+                $tempTicket->state = $request->state ?? null;
+                $tempTicket->ticket_number = $request->ticket_number ?? null;
+                $tempTicket->created_by = $request->created_by ?? null;
+                $tempTicket->module_name = $request->module_name ?? null;
+                $tempTicket->description = $request->description ?? null;
+                $tempTicket->severity = $request->severity ?? null;
+                $tempTicket->incident_type = $request->incident_type ?? null;
+                $tempTicket->dev_notes = $request->dev_notes ?? null;
+                $tempTicket->user_comments = json_encode($request->user_comments);
 
+            // Save the store record with the updated data
+            $tempTicket->save();
             // Handle file attachment if provided
             if ($request->hasFile('attachments')) {
                 // Delete the previous attachment if exists
