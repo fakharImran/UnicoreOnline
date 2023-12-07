@@ -19,6 +19,46 @@ use App\Http\Controllers\CompanyUserController;
 */
 
 
+Route::get('/',  function(){
+    $user = Auth::user();
+
+if ($user) {
+    switch (true) {
+        case $user->roles->contains('name', 'admin'):
+            // User has an "admin" role
+            // Handle admin-specific actions
+            return redirect('/tickets');
+
+            break;
+
+        
+
+
+        case $user->roles->contains('name', 'user'):
+            // User has a "merchandiser" role
+            // Handle merchandiser-specific actions
+            Session::flush();
+            Auth::logout();
+            return redirect('login');
+            break;
+
+        default:
+            // User has other or no roles
+            // Handle other user roles or cases
+            Session::flush();
+            Auth::logout();
+            return redirect('login'); // Handle unknown roles appropriately
+
+            break;
+    }
+} else {
+    // Handle the case where no user is authenticated
+    return redirect('/login'); // Handle unknown roles appropriately
+
+}
+
+    
+});
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -174,7 +174,6 @@ class CompanyUserController extends Controller
         if($request->access_privilege=="Deactivated")
         {
             $user->assignRole('no_access');
-
         }
         else
         {
