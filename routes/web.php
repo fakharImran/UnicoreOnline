@@ -27,8 +27,7 @@ if ($user) {
         case $user->roles->contains('name', 'admin'):
             // User has an "admin" role
             // Handle admin-specific actions
-            return redirect('/companies');
-
+            return redirect()->route('companyUsers.index');
             break;
 
         
@@ -36,8 +35,7 @@ if ($user) {
         case $user->roles->contains('name', 'user'):
             // User has a "manager" role
             // Handle manager-specific actions
-            return redirect('/tickets');
-
+            return redirect()->route('tickets.index');
             break;
             
 
