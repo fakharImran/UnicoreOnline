@@ -55,6 +55,17 @@
 
 
 
+                                            @php
+                                              if(!Auth::user()->hasRole('admin')){
+                                                $company_name = $companies['company_name'];
+                                                $companySubStr = substr($company_name, 0, 3);
+                                              }
+                                              else {
+                                                $companySubStr = substr("ADMIN");
+                                              }
+                                                // $companySubStr = strtoupper(substr($company_name, 0, 3));
+                                            @endphp     
+                                            {{-- {{dd($companySubStr)}} --}}
 
                                         <div class="user_form_content mt-2">
                                             <div class="label">
@@ -62,7 +73,7 @@
                                             </div>
                                             <div class="user_input_form">
                                                 <input type="text" class="form-control" id="ticket_number"
-                                                    value="{{ generateUniqueString('ABC') }}" name="ticket_number" readonly
+                                                    value='{{ generateUniqueString($companySubStr) }}' name="ticket_number" readonly
                                                     autocomplete="ticket_number" autofocus placeholder="Ticket Number">
                                                 {{-- <input type="text" class="form-control" id="ticket_number"
                                                     value="" name="ticket_number"

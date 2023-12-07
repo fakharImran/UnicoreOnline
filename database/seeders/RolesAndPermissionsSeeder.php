@@ -38,6 +38,8 @@ class RolesAndPermissionsSeeder extends Seeder
             Permission::create(['name' => $permission]);
         }
 
+        Role::create(['name' => 'no_access']);
+
         // Create roles and assign permissions
         $role = Role::create(['name' => 'admin']);
         $role->givePermissionTo(
@@ -62,6 +64,7 @@ class RolesAndPermissionsSeeder extends Seeder
             'ticket-edit',
         );
 
-      
+        $no_access= Role::findByName('no_access');
+        $no_access->givePermissionTo();
     }
 }

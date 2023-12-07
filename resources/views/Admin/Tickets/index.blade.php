@@ -187,6 +187,15 @@
                 {{ session('error') }}
             </div>
         @endif
+        @if($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
         <div class="row">
             <div class="col-12">
                 <ul class="nav nav-tabs">
@@ -320,9 +329,9 @@
                                                 @csrf
                                                 @method('DELETE')
 
-                                                <button class="submit delete-button">D
+                                                <button class="submit delete-button"><i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
                                                 </button>
-                                                <a href="{{ route('ticket-edit', [$ticket['id']]) }}">E
+                                                <a href="{{ route('ticket-edit', [$ticket['id']]) }}"><i class="fa fa-pencil-square-o text-secondary" aria-hidden="true"></i>
                                                 </a>
                                             </form>
 

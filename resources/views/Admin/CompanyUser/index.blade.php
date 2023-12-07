@@ -254,7 +254,7 @@ $(document).ready(function() {
                     <th class="thclass"  scope="col">Access Privilege</th>
                     <th class="thclass"  scope="col">dateModified</th>
                     <th class="thclass"  scope="col">dateCreated</th>
-                    {{-- <th class="thclass"  scope="col">Action</th> --}}
+                    <th class="thclass"  scope="col">Action</th>
 
                     </tr>
                 </thead>
@@ -284,18 +284,18 @@ $(document).ready(function() {
                             <td class="tdclass">{{ $companyUser->updated_at }}</td>
                             <td class="tdclass">{{ $companyUser->created_at}}</td>
                                     
-                          {{-- <td class="tdclass">
+                          <td class="tdclass">
                                 <form action={{ route('companyUsers.destroy', $companyUser['id']) }} method="post">
                                     @csrf
                                     @method('DELETE')
                                 
-                                    <button class="submit delete-button">D
+                                  <button class="submit delete-button"><i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
                                     </button>
-                                    <a href="{{ route('companyUsers-edit', [$companyUser['id']]) }}">E
+                                    <a href="{{ route('companyUsers-edit', [$companyUser['id']]) }}"><i class="fa fa-pencil-square-o text-secondary" aria-hidden="true"></i>
                                     </a>
                                 </form>
                             
-                            </td> --}}
+                            </td>
                         </tr>
                         @php
                             $i++;

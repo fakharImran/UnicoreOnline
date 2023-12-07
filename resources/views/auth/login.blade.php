@@ -36,6 +36,7 @@
 
                             <div class="col-md-12">
                                 <input id="password" type="password" class="form-control-lg form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password" style="background-color:  #e9ecef !important;">
+                                <span class="toggle-password-login fa fa-eye"  onclick="togglePasswordVisibility()"></span>
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -80,3 +81,13 @@
     </div>
 </div>
 @endsection
+<script>
+    function togglePasswordVisibility() {
+        var passwordField = document.getElementById('password');
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+        } else {
+            passwordField.type = 'password';
+        }
+    }
+</script>

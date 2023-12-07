@@ -52,6 +52,7 @@ class CompanyUserController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->input());
          $this->validate($request, [
             'company_id' => 'required',
             'department' => 'required',
@@ -73,7 +74,16 @@ class CompanyUserController extends Controller
     
        
         $user = User::create($input);
-        $user->assignRole('user');
+        if($request->access_privilege=="Deactivated")
+        {
+            $user->assignRole('no_access');
+        }
+        else
+        {
+            $user->assignRole('user');
+        }
+
+// dd($user);
 
         
         $tempUser= new CompanyUser();
@@ -134,11 +144,11 @@ class CompanyUserController extends Controller
          // dd($request->all());
          // dd($request->all());
         $companyUser = CompanyUser::where('id', $id)->first();
-
+        // dd($companyUser);
          $this->validate($request, [
             'company_id' => 'required',
             'department' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email,'.$companyUser->user_id,
             'first_name' => 'required',
             'last_name' => 'required',
             'password' => 'required',
@@ -158,7 +168,19 @@ class CompanyUserController extends Controller
         // dd($input);
         $user = User::find($companyUser->user_id);
 
+        
         $user->update($input);
+
+        if($request->access_privilege=="Deactivated")
+        {
+            $user->assignRole('no_access');
+
+        }
+        else
+        {
+            $user->assignRole('user');
+        }
+        // dd($user);
 
         $companyUser->company_id= $request->company_id;
         $companyUser->user_id=  $user->id;

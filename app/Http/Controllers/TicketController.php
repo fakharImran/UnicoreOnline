@@ -41,7 +41,7 @@ class TicketController extends Controller
             // dd($tickets);
 
         }
-        // dd($companies);
+        // dd($c ompanies);
 
 
         return view('Admin.Tickets.index', compact('user','tickets', 'companies'), ['pageConfigs' => $pageConfigs]);
@@ -53,10 +53,23 @@ class TicketController extends Controller
      */
     public function create()
     {
+        $user = Auth::user();
+
+        if(Auth::user()->hasRole('admin')){
+            return redirect()->back()->withErrors("Admin cannot create Tickcts right now")->withInput();
+        }
+        else{
+            $companies = $user->companyUser->company; //for getting single company
+            $tickets = $companies->tickets;
+            // dd($tickets);
+
+        }
+        // dd($companies);
+
         $pageConfigs = ['pageSidebar' => 'ticket'];  
         $user= Auth::user();
 
-        return view('Admin.Tickets.create',compact('user'), ['pageConfigs' => $pageConfigs]);
+        return view('Admin.Tickets.create',compact('user','companies'), ['pageConfigs' => $pageConfigs]);
     }
 
     /**
@@ -82,8 +95,11 @@ class TicketController extends Controller
                     // Validation failed
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
+               
                 $user= Auth::user();
+
                 $company_id= $user->companyUser->company->id;
+                // dd($company_id);
                 $tempTicket = new Ticket();
                 $tempTicket->company_id=$company_id;
                 $tempTicket->state = $request->state ?? null;

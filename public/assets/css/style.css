@@ -278,3 +278,26 @@ td{
     border: 1px solid #ccc !important;
 
 }
+
+.toggle-password {
+    position: absolute;
+    top: 136%;
+    right: 277px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-image: url('eye-icon.png'); /* Replace 'eye-icon.png' with your eye icon image path */
+    background-size: cover;
+    cursor: pointer;
+  }
+  .toggle-password-login {
+    position: absolute;
+    top: 52%;
+    right: 50px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    background-image: url('eye-icon.png');
+    background-size: cover;
+    cursor: pointer;
+}

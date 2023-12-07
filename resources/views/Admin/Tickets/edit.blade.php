@@ -66,7 +66,7 @@
                                             </div>
                                             <div class="user_input_form">
                                                 <input type="text" class="form-control" id="ticket_number"
-                                                    value="{{ generateUniqueString('ABC') }}" name="ticket_number" readonly
+                                                    value="{{ $ticket['ticket_number'] }}" name="ticket_number" readonly
                                                     autocomplete="ticket_number" autofocus placeholder="Ticket Number">
                                                 {{-- <input type="text" name="your_input_name" value="{{ generateUniqueString('CI') }}" readonly> --}}
 
