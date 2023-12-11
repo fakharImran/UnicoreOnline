@@ -56,11 +56,12 @@ class TicketController extends Controller
         $user = Auth::user();
 
         if(Auth::user()->hasRole('admin')){
-            return redirect()->back()->withErrors("Admin cannot create Tickcts right now")->withInput();
+            // return redirect()->back()->withErrors("Admin cannot create Tickcts right now")->withInput();
+            $companies = Company::all();
         }
         else{
             $companies = $user->companyUser->company; //for getting single company
-            $tickets = $companies->tickets;
+            // $tickets = $companies->tickets;
             // dd($tickets);
 
         }
@@ -86,8 +87,8 @@ class TicketController extends Controller
                     'description' => 'required',
                     'severity' => 'required',
                     'incident_type' => 'required',
-                    'dev_notes' => 'required',
-                    'user_comments' => 'required',
+                    // 'dev_notes' => 'required',
+                    // 'user_comments' => 'required',
                     // 'attachments' => 'required|mimes:xlsx,xls,png,doc,docx,pdf,jpeg,jpg|max:100000',
                 ]);
 
@@ -97,8 +98,29 @@ class TicketController extends Controller
                 }
                
                 $user= Auth::user();
+                if ($validator->fails()) {
+                    // Validation failed
+                    return redirect()->back()->withErrors($validator)->withInput();
+                }
+                if($user->hasRole('admin'))
+                {
+                    $validator = Validator::make($request->all(), [
+                        'company_id' => 'required',
+                        // 'attachments' => 'required|mimes:xlsx,xls,png,doc,docx,pdf,jpeg,jpg|max:100000',
+                    ]);
+                    if ($validator->fails()) {
+                        // Validation failed
+                        return redirect()->back()->withErrors("Company Name is Required")->withInput();
+                    }
+                $company_id= $request->company_id;
 
-                $company_id= $user->companyUser->company->id;
+                }
+                else
+                {
+                    $company_id= $user->companyUser->company->id;
+                }
+                
+               
                 // dd($company_id);
                 $tempTicket = new Ticket();
                 $tempTicket->company_id=$company_id;

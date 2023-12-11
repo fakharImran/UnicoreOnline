@@ -30,6 +30,25 @@
                                         <div class="form_title">
                                             <h4>General</h4>
                                         </div>
+                                        @if($user->hasRole('admin'))
+                                        <div class="user_form_content">
+                                            <div class="label">
+                                                <label>{{ __('Company Name:') }}  <span class="text-danger">*</span></label>
+                                            </div>
+                                            <div class="user_select_form">
+                                                <select id="company" onchange="setTicketNo(this)" name="company_id" class="form-select" required>
+                                                    <option value=""  selected>Select Company</option>
+                                                    @if ($companies != null)
+                                                        @foreach ($companies as $company)
+                                                            <option value="{{ $company['id'] }}">{{ $company['company_name'] }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </div>
+                                        </div>
+                                        @endif
+                                       
 
 
                                         <div class="user_form_content">
@@ -61,7 +80,7 @@
                                                 $companySubStr = substr($company_name, 0, 3);
                                               }
                                               else {
-                                                $companySubStr = substr("ADMIN");
+                                                $companySubStr = "ADMIN";
                                               }
                                                 // $companySubStr = strtoupper(substr($company_name, 0, 3));
                                             @endphp     
@@ -97,12 +116,12 @@
 
                                         <div class="user_form_content  mt-2">
                                             <div class="label">
-                                                <label>{{ __('Module Name:') }}</label>
+                                                <label>{{ __('Module Name:') }} <span class="text-danger">*</span></label>
                                             </div>
                                             <div class="user_input_form">
                                                 <input type="text" class="form-control" id="module_name" value=""
                                                     name="module_name" autocomplete="module_name" autofocus
-                                                    placeholder="Module Name">
+                                                    placeholder="Module Name" required>
 
                                             </div>
                                         </div>
@@ -117,7 +136,7 @@
                                         </div>
                                         <div class="user_form_content  mt-2">
                                             <div class="label">
-                                                <label>{{ __('Severity:') }}</label>
+                                                <label>{{ __('Severity:') }} <span class="text-danger">*</span></label>
                                             </div>
                                             <div class="user_select_form">
                                                 <select id="severity" name="severity" class="form-select"
@@ -137,7 +156,7 @@
                                         </div>
                                         <div class="user_form_content  mt-2">
                                             <div class="label">
-                                                <label>{{ __('Incident Type:') }}</label>
+                                                <label>{{ __('Incident Type:') }} <span class="text-danger">*</span></label>
                                             </div>
                                             <div class="user_select_form">
                                                 <select id="incident_type" name="incident_type" class="form-select"
@@ -324,5 +343,21 @@
     }
 @endphp --}}
 
+<script>
+    function setTicketNo(selectElement) {
+        var selectedOption = selectElement.options[selectElement.selectedIndex];
 
+        // Get the value and text of the selected option
+        var selectedValue = selectedOption.value;
+        var selectedText = selectedOption.text;
+        let compInitial = selectedText. substr(0, 3);
+        var existingTicket=document.getElementById('ticket_number').value;
+        const arr = existingTicket.split("-");
+        var newTicketNo= compInitial+'-'+arr[1]+'-'+arr[2];
+        // alert(newTicketNo);
+        // document.getElementById('ticket_number').readOnly=false;
+
+        document.getElementById('ticket_number').value=newTicketNo;
+    }
+</script>
 @endsection
