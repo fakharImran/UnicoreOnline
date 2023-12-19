@@ -168,8 +168,8 @@ class TicketController extends Controller
                 $ticket = $tempTicket;
                 if($user->hasRole('user'))
                 {
-                    // Mail::to($user->email)->send(new TicketMail($ticket, $user));
-                    // Mail::to('support@unicoreonline.com')->send(new AdminMail($ticket, $user));
+                    Mail::to($user->email)->send(new TicketMail($ticket, $user));
+                    Mail::to('support@unicoreonline.com')->send(new AdminMail($ticket, $user));
                 }
                 
                 // dd($user->email);
@@ -278,7 +278,7 @@ class TicketController extends Controller
             $ticket = $tempTicket;
             if($user->hasRole('user'))
             {
-                // Mail::to('support@unicoreonline.com')->send(new AdminMail($ticket, $user));
+                Mail::to('support@unicoreonline.com')->send(new AdminMail($ticket, $user));
             }
             else
             {
@@ -286,7 +286,7 @@ class TicketController extends Controller
                 {
                     $user= User::where('email', $ticket->created_by)->first();
 
-                    // Mail::to($ticket->created_by)->send(new UpdateTicketByAdminMailToUser($ticket, $user));
+                    Mail::to($ticket->created_by)->send(new UpdateTicketByAdminMailToUser($ticket, $user));
                 }
             }
 
