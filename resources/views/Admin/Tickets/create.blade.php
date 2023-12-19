@@ -30,25 +30,28 @@
                                         <div class="form_title">
                                             <h4>General</h4>
                                         </div>
-                                        @if($user->hasRole('admin'))
-                                        <div class="user_form_content">
-                                            <div class="label">
-                                                <label>{{ __('Company Name:') }}  <span class="text-danger">*</span></label>
+                                        @if ($user->hasRole('admin'))
+                                            <div class="user_form_content">
+                                                <div class="label">
+                                                    <label>{{ __('Company Name:') }} <span
+                                                            class="text-danger">*</span></label>
+                                                </div>
+                                                <div class="user_select_form">
+                                                    <select id="company" onchange="setTicketNo(this)" name="company_id"
+                                                        class="form-select" required>
+                                                        <option value="" selected>Select Company</option>
+                                                        @if ($companies != null)
+                                                            @foreach ($companies as $company)
+                                                                <option value="{{ $company['id'] }}">
+                                                                    {{ $company['company_name'] }}
+                                                                </option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
                                             </div>
-                                            <div class="user_select_form">
-                                                <select id="company" onchange="setTicketNo(this)" name="company_id" class="form-select" required>
-                                                    <option value=""  selected>Select Company</option>
-                                                    @if ($companies != null)
-                                                        @foreach ($companies as $company)
-                                                            <option value="{{ $company['id'] }}">{{ $company['company_name'] }}
-                                                            </option>
-                                                        @endforeach
-                                                    @endif
-                                                </select>
-                                            </div>
-                                        </div>
                                         @endif
-                                       
+
 
 
                                         <div class="user_form_content">
@@ -74,17 +77,16 @@
 
 
 
-                                            @php
-                                              if(!Auth::user()->hasRole('admin')){
+                                        @php
+                                            if (!Auth::user()->hasRole('admin')) {
                                                 $company_name = $companies['company_name'];
                                                 $companySubStr = substr($company_name, 0, 3);
-                                              }
-                                              else {
-                                                $companySubStr = "ADMIN";
-                                              }
-                                                // $companySubStr = strtoupper(substr($company_name, 0, 3));
-                                            @endphp     
-                                            {{-- {{dd($companySubStr)}} --}}
+                                            } else {
+                                                $companySubStr = 'ADMIN';
+                                            }
+                                            // $companySubStr = strtoupper(substr($company_name, 0, 3));
+                                        @endphp
+                                        {{-- {{dd($companySubStr)}} --}}
 
                                         <div class="user_form_content mt-2">
                                             <div class="label">
@@ -92,8 +94,9 @@
                                             </div>
                                             <div class="user_input_form">
                                                 <input type="text" class="form-control" id="ticket_number"
-                                                    value='{{ generateUniqueString($companySubStr) }}' name="ticket_number" readonly
-                                                    autocomplete="ticket_number" autofocus placeholder="Ticket Number">
+                                                    value='{{ generateUniqueString($companySubStr) }}' name="ticket_number"
+                                                    readonly autocomplete="ticket_number" autofocus
+                                                    placeholder="Ticket Number">
                                                 {{-- <input type="text" class="form-control" id="ticket_number"
                                                     value="" name="ticket_number"
                                                     autocomplete="ticket_number" autofocus placeholder="Ticket Number"> --}}
@@ -156,7 +159,8 @@
                                         </div>
                                         <div class="user_form_content  mt-2">
                                             <div class="label">
-                                                <label>{{ __('Incident Type:') }} <span class="text-danger">*</span></label>
+                                                <label>{{ __('Incident Type:') }} <span
+                                                        class="text-danger">*</span></label>
                                             </div>
                                             <div class="user_select_form">
                                                 <select id="incident_type" name="incident_type" class="form-select"
@@ -164,7 +168,8 @@
                                                     <option value="" disabled selected>Select Incident Type</option>
                                                     <option value="Hardware Issues">Hardware Issues</option>
                                                     <option value="Software Bugs">Software Bugs</option>
-                                                    <option value="User Account Management">User Account Management</option>
+                                                    <option value="User Account Management">User Account Management
+                                                    </option>
                                                     <option value="Network Connectivity">Network Connectivity</option>
                                                     <option value="Security Incidents">Security Incidents</option>
                                                     <option value="Performance Issues">Performance Issues</option>
@@ -180,6 +185,96 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        {{-- <div class="attachment-container">
+                                            <div class="label">
+                                                <label>{{ __('Attachment') }}</label>
+                                            </div>
+
+                                            <div class="user_form_content">
+                                                
+                                                <div class="user_input_form">
+                                                    <input type="file" class="form-control attachment-input" name="attachments" required autocomplete="name">
+                                                    @error('attachments.*')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div> --}}
+
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <div class="label mt-2">
+                                                    <label>{{ __('Attachments:') }}</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="card attachment-container">
+                                                    <div class="card-body p-2" id="attachment-container">
+                                                        <div>
+                                                            <div class="user_input_form">
+                                                                <div class="attachment-actions">
+                                                                    <div class="attachment-remove-link   clickable-element p-2 text-danger float-end"
+                                                                        style="display: block" onclick="removeFile(this)">
+                                                                        Remove</div>
+                                                                    <a href="#"
+                                                                        class="attachment-preview-link float-end p-2"
+                                                                        style="display: none" target="_blank">Preview</a>
+                                                                    &nbsp; &nbsp; &nbsp; &nbsp;
+                                                                </div>
+                                                                <input type="file"
+                                                                    class="form-control attachment-input"
+                                                                    name="attachments[]" required autocomplete="name"
+                                                                    onchange="previewFile(this)">
+                                                                @error('attachments.*')
+                                                                    <span class="invalid-feedback" role="alert">
+                                                                        <strong>{{ $message }}</strong>
+                                                                    </span>
+                                                                @enderror
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="text-decoration-underline clickable-element p-2 float-end text-primary add-new-attachment"
+                                                    onclick="addNewAttachment()">+Add New Attachment</div>
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                        {{-- <div class="attachment-container mt-2">
+                                            <div class="label">
+                                                <label>{{ __('Attachment') }}</label>
+                                            </div>
+
+                                            <div class="user_form_content mt-2">
+                                                
+                                                <div class="user_input_form">
+                                                    <div class="attachment-actions">
+                                                        <div class="attachment-remove-link   clickable-element p-2 text-danger float-end" style="display: block" onclick="removeFile(this)">Remove</div>
+                                                        <a href="#" class="attachment-preview-link float-end p-2" style="display: none" target="_blank">Preview</a> &nbsp; &nbsp; &nbsp; &nbsp;
+                                                    </div>
+                                                    <input type="file" class="form-control attachment-input" name="attachments[]" required autocomplete="name" onchange="previewFile(this)">
+                                                    @error('attachments.*')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="text-decoration-underline clickable-element p-2 float-end text-primary add-new-attachment"  onclick="addNewAttachment()">+Add New Attachment</div>
+
+                                        </div> --}}
+
                                         <div class="user_form_content  mt-2">
                                             <div class="label">
                                                 <label>{{ __('Dev Notes:') }}</label>
@@ -189,7 +284,20 @@
 
                                             </div>
                                         </div>
-                                        <div class="label mt-2">
+
+                                            {{-- <div class="label">
+                                                <label>{{ __('User Comments:') }}</label>
+                                            </div> --}}
+
+                                            <div class="row ">
+                                                <div class="col-12" style="margin-top:20px;">
+                                                    <button type="button" class="btn btn-primary float-end">Post</button>
+
+                                                </div>
+
+                                            </div>
+
+                                        {{-- <div class="label mt-2">
                                             <label>{{ __('User Comments:') }}</label>
                                         </div>
                                         <div class="card">
@@ -217,7 +325,7 @@
                                                 const newItem = document.createElement('div');
                                                 // newItem.classList.add("p-1");
                                                 newItem.innerHTML = `
-                                                <div class="user_form_content">
+                                                <div class="col-10">
                                                    
                                                     <div class="user_input_form">
                                                         <textarea  class="form-control" id="user_comments" value="" name="user_comments[]" autocomplete="user_comments" autofocus  ></textarea>
@@ -252,22 +360,57 @@
                                             <h4>Attachment (Optional)</h4>
                                         </div>
 
+                                      --}}
+
+                                        <script>
+                                            function previewFile(input) {
+                                                var previewLink = input.parentElement.querySelector('.attachment-preview-link');
+                                                var removeLink = input.parentElement.querySelector('.attachment-remove-link');
+
+                                                // Make sure a file is selected
+                                                if (input.files.length > 0) {
+                                                    var file = input.files[0];
+
+                                                    // Set the preview link's href to the file object URL
+                                                    previewLink.href = URL.createObjectURL(file);
+
+                                                    // Display the preview and remove links
+                                                    previewLink.style.display = 'inline-block';
+                                                    removeLink.style.display = 'inline-block';
+                                                } else {
+                                                    // Hide the preview and remove links if no file is selected
+                                                    previewLink.style.display = 'none';
+                                                    removeLink.style.display = 'block';
+                                                }
+                                            }
+
+                                            function removeFile(link) {
+                                                var container = link.closest('.user_input_form');
+
+                                                // Remove the entire container when "Remove" link is clicked
+                                                container.remove();
+                                            }
+
+                                            function addNewAttachment() {
+                                                var container = document.querySelector('.attachment-container');
+                                                const newItem = document.createElement('div');
+                                                // newItem.classList.add("p-1");
+                                                newItem.innerHTML = `
+                                                <div class="user_input_form p-2">
+                                                    <div class="attachment-actions">
+                                                        <div class="attachment-remove-link   clickable-element p-2 text-danger float-end" style="display: block" onclick="removeFile(this)">Remove</div>
+                                                        <a href="#" class="attachment-preview-link float-end p-2" style="display: none" target="_blank">Preview</a> &nbsp; &nbsp; &nbsp; &nbsp;
+                                                    </div>
+                                                    <input type="file" class="form-control attachment-input" name="attachments[]" required autocomplete="name" onchange="previewFile(this)">
+                                                </div>
+                                                `;
+                                                // user_input_form
+                                                container.appendChild(newItem);
+                                                initMap();
+                                            }
+                                        </script>
 
 
-                                        <div class="user_form_content">
-                                            <div class="label">
-                                                <label>{{ __('Attachment') }}</label>
-                                            </div>
-                                            <div class="user_input_form">
-                                                <input type="file" class="form-control" id="attachments"
-                                                    name="attachments" required autocomplete="name">
-                                                @error('Attachment')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
 
                                         <div class="user_btn_list">
                                             {{-- <div class="user_btn text-secondary" >
@@ -343,21 +486,21 @@
     }
 @endphp --}}
 
-<script>
-    function setTicketNo(selectElement) {
-        var selectedOption = selectElement.options[selectElement.selectedIndex];
+    <script>
+        function setTicketNo(selectElement) {
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
 
-        // Get the value and text of the selected option
-        var selectedValue = selectedOption.value;
-        var selectedText = selectedOption.text;
-        let compInitial = selectedText. substr(0, 3);
-        var existingTicket=document.getElementById('ticket_number').value;
-        const arr = existingTicket.split("-");
-        var newTicketNo= compInitial+'-'+arr[1]+'-'+arr[2];
-        // alert(newTicketNo);
-        // document.getElementById('ticket_number').readOnly=false;
+            // Get the value and text of the selected option
+            var selectedValue = selectedOption.value;
+            var selectedText = selectedOption.text;
+            let compInitial = selectedText.substr(0, 3);
+            var existingTicket = document.getElementById('ticket_number').value;
+            const arr = existingTicket.split("-");
+            var newTicketNo = compInitial + '-' + arr[1] + '-' + arr[2];
+            // alert(newTicketNo);
+            // document.getElementById('ticket_number').readOnly=false;
 
-        document.getElementById('ticket_number').value=newTicketNo;
-    }
-</script>
+            document.getElementById('ticket_number').value = newTicketNo;
+        }
+    </script>
 @endsection

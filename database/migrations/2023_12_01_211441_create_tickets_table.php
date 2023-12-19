@@ -24,7 +24,7 @@ return new class extends Migration
             $table->String('incident_type')->nullable();
             $table->String('dev_notes')->nullable();
             $table->json('user_comments')->nullable();
-            $table->String('attachments')->nullable();
+            $table->json('attachments')->nullable();
             $table->timestamps();
         });
     }

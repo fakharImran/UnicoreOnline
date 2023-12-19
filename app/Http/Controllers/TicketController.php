@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use Validator;
+use App\Models\User;
 use App\Models\Ticket;
+use App\Mail\AdminMail;
 use App\Models\Company;
+use App\Mail\TicketMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use App\Mail\UpdateTicketByAdminMailToUser;
 
 class TicketController extends Controller
 {
@@ -98,10 +103,6 @@ class TicketController extends Controller
                 }
                
                 $user= Auth::user();
-                if ($validator->fails()) {
-                    // Validation failed
-                    return redirect()->back()->withErrors($validator)->withInput();
-                }
                 if($user->hasRole('admin'))
                 {
                     $validator = Validator::make($request->all(), [
@@ -135,20 +136,43 @@ class TicketController extends Controller
                 $tempTicket->user_comments = json_encode($request->user_comments);
 
                 $tempTicket->save();
-                // dd($tempTicket);
-                if($request->hasFile('attachments'))
-                {
-                    $url = $request->file('attachments')->store('ticket', 'public');
+               // Ensure that files are present in the request
+                if ($request->hasFile('attachments')) {
+                    $attachments = [];
+
+                    // Iterate through each uploaded file
+                    foreach ($request->file('attachments') as $file) {
+                        // Store each file in the 'ticket' directory under the 'public' disk
+                        $originalName = $file->getClientOriginalName();
+
+                        // Store each file with the original name in the 'ticketAttachments' directory under the 'public' disk
+                        $url = $file->storeAs('ticketAttachments', $originalName, 'public');
+                        
+                        
+                        // Save the URL to the array
+                        $attachments[] = $url;
+                    }
+                    // dd($attachments);
+                    // Save the array of URLs in the 'attachments' column of the database
+                    $tempTicket->attachments = $attachments;
+                    $tempTicket->save();
+                    // dd($tempTicket);
+                } else {
+                    // No files were uploaded, handle accordingly
                 }
-                else
+
+
+                $user_id = Auth::user()->id;
+                $user= User::find($user_id);
+                // dd($user);
+                $ticket = $tempTicket;
+                if($user->hasRole('user'))
                 {
-                    $url=null;
+                    // Mail::to($user->email)->send(new TicketMail($ticket, $user));
+                    // Mail::to('support@unicoreonline.com')->send(new AdminMail($ticket, $user));
                 }
-                // dd($url);
-            
-                $tempTicket->attachments= $url;
-               $tempTicket->save();
-                // dd($tempTicket);
+                
+                // dd($user->email);
                 return redirect()->route('tickets.index');
 
         //
@@ -178,6 +202,7 @@ class TicketController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->existing_attachments);
         $validator = Validator::make($request->all(), [
             'state' => 'required',
             'ticket_number' => 'required',
@@ -217,17 +242,53 @@ class TicketController extends Controller
             $tempTicket->save();
             // Handle file attachment if provided
             if ($request->hasFile('attachments')) {
-                // Delete the previous attachment if exists
-                if ($tempTicket->attachments) {
-                    Storage::disk('public')->delete($tempTicket->attachments);
-                }
+                $attachments = [];
 
-                // Store the new attachment
-                $url = $request->file('attachments')->store('ticket', 'public');
-                $tempTicket->attachments = $url;
+                // Iterate through each uploaded file
+                foreach ($request->file('attachments') as $file) {
+
+                    $originalName = $file->getClientOriginalName();
+
+                    // Store each file with the original name in the 'ticketAttachments' directory under the 'public' disk
+                    $url = $file->storeAs('ticketAttachments', $originalName, 'public');
+                    
+                    // Save the URL to the array
+                    $attachments[] = $url;
+                }
+                // dd($attachments);
+                // Save the array of URLs in the 'attachments' column of the database
+                foreach($request->existing_attachments as $existing)
+                {
+                    $existingUrl= 'ticketAttachments/'.$existing;
+                    array_push($attachments,$existingUrl );
+                }
+                // dd($attachments);
+                $tempTicket->attachments = $attachments;
+                $tempTicket->save();
+                // dd($tempTicket);
+            } else {
+                // No files were uploaded, handle accordingly
             }
 
-            $tempTicket->save();
+
+
+            $user_id = Auth::user()->id;
+            $user= User::find($user_id);
+            // dd($user);
+            $ticket = $tempTicket;
+            if($user->hasRole('user'))
+            {
+                // Mail::to('support@unicoreonline.com')->send(new AdminMail($ticket, $user));
+            }
+            else
+            {
+                if($ticket->state!="Pending Pick Up")
+                {
+                    $user= User::where('email', $ticket->created_by)->first();
+
+                    // Mail::to($ticket->created_by)->send(new UpdateTicketByAdminMailToUser($ticket, $user));
+                }
+            }
 
             return redirect()->route('tickets.index');
             

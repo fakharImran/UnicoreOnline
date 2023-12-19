@@ -173,6 +173,167 @@
                                                 @enderror
                                             </div>
                                         </div>
+
+                                        {{-- <div class="user_form_content">
+                                            <div class="label">
+                                                <label>{{ __('Attachment') }}</label>
+                                            </div>
+                                            @php
+                                                $ticketAttachments= json_decode($ticket['attachments'], true);
+                                            @endphp
+
+                                            @if($ticketAttachments!=null)
+
+                                            <div class="user_input_form">
+                                                <input type="file" class="form-control" id="attachments" name="attachments[]" multiple>
+                                                @if (isset($ticketAttachments) && is_array($ticketAttachments))
+                                                    <p>Current Attachments:</p>
+                                                    <ul>
+                                                        @foreach ($ticketAttachments as $attachment)
+                                                            @php
+                                                                $tempTicket = explode('/', $attachment);
+                                                            @endphp
+                                                            <li>{{ $tempTicket[1] }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                @endif
+                                                @error('attachments')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                            @else
+                                            <div class="user_form_content mt-2">
+                                                
+                                                <div class="user_input_form">
+                                                    <div class="attachment-actions">
+                                                        <div class="attachment-remove-link   clickable-element p-2 text-danger float-end" style="display: block" onclick="removeFile(this)">Remove</div>
+                                                        <a href="#" class="attachment-preview-link float-end p-2" style="display: none" target="_blank">Preview</a> &nbsp; &nbsp; &nbsp; &nbsp;
+                                                    </div>
+                                                    <input type="file" class="form-control attachment-input" name="attachments[]" required autocomplete="name" onchange="previewFile(this)">
+                                                    @error('attachments.*')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
+                                                </div>
+                                                <div>
+                                                    <div class="text-decoration-underline clickable-element p-2 float-end text-primary add-new-attachment"  onclick="addNewAttachment()">+Add New Attachment</div>
+        
+                                                </div>
+                                            </div>
+                                            @endif
+                                        </div> --}}
+                                        @php
+                                        $ticketAttachments = json_decode($ticket['attachments'], true);
+                                    @endphp
+                                    
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <div class="label mt-2">
+                                                <label>{{ __('Attachments:') }}</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-10">
+                                            <div class="card attachment-container">
+                                                <div class="card-body p-2" id="attachment-container">
+                                                    @if(isset($ticketAttachments) && is_array($ticketAttachments))
+                                                        @foreach($ticketAttachments as $attachment)
+                                                            <div>
+                                                                <div class="user_input_form" style="margin-top:10px" >
+                                                                    <div class="attachment-actions">
+                                                                        <div class="attachment-remove-link clickable-element p-2 text-danger float-end"
+                                                                            style="display: block" onclick="removeFile(this)">Remove</div>
+                                                                        <a href="{{ asset('storage/' . $attachment) }}" value="{{$attachment}}" class="attachment-preview-link float-end p-2"
+                                                                            target="_blank">Preview</a>
+                                                                    </div>
+                                                                   
+                                                                    <input type="text" class="form-control" style="width: 80%; padding: 0 20px" readonly name="existing_attachments[]" value="{{ basename($attachment) }}">
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    @endif
+                                    
+                                                    <div>
+                                                        <div class="user_input_form">
+                                                            <div class="attachment-actions">
+                                                                <div class="attachment-remove-link clickable-element p-2 text-danger float-end"
+                                                                    style="display: none" onclick="removeFile(this)">Remove</div>
+                                                                <a href="#" class="attachment-preview-link float-end p-2" style="display: none"
+                                                                    target="_blank">Preview</a>
+                                                                &nbsp; &nbsp; &nbsp; &nbsp;
+                                                            </div>
+                                                            <input type="file" class="form-control attachment-input" name="attachments[]" required
+                                                                autocomplete="name" onchange="previewFile(this)">
+                                                        </div>
+                                                    </div>
+                                    
+                                                </div>
+                                            </div>
+                                    
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="text-decoration-underline clickable-element p-2 float-end text-primary add-new-attachment" style="margin-top:15px"
+                                                onclick="addNewAttachment()">+Add New Attachment</div>
+                                        </div>
+                                    
+                                    </div>
+                                    
+                                    <script>
+                                        function previewFile(input) {
+                                            var previewLink = input.parentElement.querySelector('.attachment-preview-link');
+                                            var removeLink = input.parentElement.querySelector('.attachment-remove-link');
+                                    
+                                            // Make sure a file is selected
+                                            if (input.files.length > 0) {
+                                                var file = input.files[0];
+                                    
+                                                // Set the preview link's href to the file object URL
+                                                previewLink.href = URL.createObjectURL(file);
+                                    
+                                                // Display the preview and remove links
+                                                previewLink.style.display = 'inline-block';
+                                                removeLink.style.display = 'inline-block';
+                                            } else {
+                                                // Hide the preview and remove links if no file is selected
+                                                previewLink.style.display = 'none';
+                                                removeLink.style.display = 'block';
+                                            }
+                                        }
+                                    
+                                        function removeFile(link) {
+                                            var container = link.closest('.user_input_form');
+                                    
+                                            // Remove the entire container when "Remove" link is clicked
+                                            container.remove();
+                                        }
+                                    
+                                        function addNewAttachment() {
+                                            var container = document.querySelector('.attachment-container');
+                                            const newItem = document.createElement('div');
+                                            newItem.innerHTML = `
+                                                <div class="user_input_form p-2">
+                                                    <div class="attachment-actions">
+                                                        <div class="attachment-remove-link clickable-element p-2 text-danger float-end"
+                                                            style="display: block" onclick="removeFile(this)">Remove</div>
+                                                        <a href="#" class="attachment-preview-link float-end p-2" style="display: none"
+                                                            target="_blank">Preview</a>
+                                                        &nbsp; &nbsp; &nbsp; &nbsp;
+                                                    </div>
+                                                    <input type="file" class="form-control attachment-input" name="attachments[]" required
+                                                        autocomplete="name" onchange="previewFile(this)">
+                                                </div>
+                                            `;
+                                            container.appendChild(newItem);
+                                            initMap();
+                                        }
+                                    </script>
+                                    
+
+                                        
+
+
                                         <div class="user_form_content">
                                             <div class="label">
                                                 <label>{{ __('Dev Notes:') }}</label>
@@ -245,15 +406,15 @@
                                             </div>
                                         </div>
 
-                                        <div class="form_title"
+                                        {{-- <div class="form_title"
                                             style="
                                         border-bottom: 1px solid #1155CC;
                                         padding-bottom: 5px;
                                         margin-bottom: 20px;">
                                             <h4>Attachment (Optional)</h4>
-                                        </div>
+                                        </div> --}}
 
-                                        <div class="user_form_content">
+                                        {{-- <div class="user_form_content">
                                             <div class="label">
                                                 <label>{{ __('Attachment') }}</label>
                                             </div>
@@ -273,7 +434,7 @@
                                                     </span>
                                                 @enderror
                                             </div>
-                                        </div>
+                                        </div> --}}
 
                                         <div class="user_btn_list">
                                             {{-- <div class="user_btn text-secondary" >
@@ -326,6 +487,53 @@
             @endphp
         </div>
     </div>
+    <script>
+        function previewFile(input) {
+           var previewLink = input.parentElement.querySelector('.attachment-preview-link');
+           var removeLink = input.parentElement.querySelector('.attachment-remove-link');
+
+           // Make sure a file is selected
+           if (input.files.length > 0) {
+               var file = input.files[0];
+
+               // Set the preview link's href to the file object URL
+               previewLink.href = URL.createObjectURL(file);
+
+               // Display the preview and remove links
+               previewLink.style.display = 'inline-block';
+               removeLink.style.display = 'inline-block';
+           } else {
+               // Hide the preview and remove links if no file is selected
+               previewLink.style.display = 'none';
+               removeLink.style.display = 'block';
+           }
+       }
+       function removeFile(link) {
+           var container = link.closest('.user_input_form');
+   
+           // Remove the entire container when "Remove" link is clicked
+           container.remove();
+       }
+   
+       function addNewAttachment() {
+           var container = document.querySelector('.attachment-container');
+           const newItem = document.createElement('div');
+           // newItem.classList.add("p-1");
+           newItem.innerHTML = `
+           <div class="user_input_form">
+               <div class="attachment-actions">
+                   <div class="attachment-remove-link   clickable-element p-2 text-danger float-end" style="display: block" onclick="removeFile(this)">Remove</div>
+                   <a href="#" class="attachment-preview-link float-end p-2" style="display: none" target="_blank">Preview</a> &nbsp; &nbsp; &nbsp; &nbsp;
+               </div>
+               <input type="file" class="form-control attachment-input" name="attachments[]" required autocomplete="name" onchange="previewFile(this)">
+           </div>
+           `;
+           // user_input_form
+           container.appendChild(newItem);
+           initMap();
+       }
+   </script>
+   
 
 
 
