@@ -173,7 +173,7 @@ class TicketController extends Controller
                 if($user->hasRole('user'))
                 {
                     Mail::to($user->email)->send(new TicketMail($ticket, $user));
-                    Mail::to('shoun.side7062@gmail.com')->send(new AdminMail($ticket, $user));
+                    Mail::to('support@unicoreonline.com')->send(new AdminMail($ticket, $user));
                 }
                 
                 // dd($user->email);
@@ -292,7 +292,7 @@ class TicketController extends Controller
                 if($ticket->state!="Pending Pick Up")
                 {
                     $user= User::where('email', $ticket->created_by)->first();
-                    dd($user);
+                    // dd($user);
 
                     Mail::to($ticket->created_by)->send(new UpdateTicketByAdminMailToUser($ticket, $user));
                 }

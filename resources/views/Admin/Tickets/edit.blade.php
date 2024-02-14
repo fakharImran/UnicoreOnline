@@ -665,6 +665,7 @@
                                 var user_id = {!! json_encode($user->id) !!};
                                 var ticket_id = {!! json_encode($ticket->id) !!};
                                 var comment_id = storeComment(content, user_id, ticket_id);
+                                document.getElementById('post').value="";
                             }
 
                             
