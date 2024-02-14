@@ -92,8 +92,6 @@ class TicketController extends Controller
                     'description' => 'required',
                     'severity' => 'required',
                     'incident_type' => 'required',
-                    // 'dev_notes' => 'required',
-                    // 'user_comments' => 'required',
                     // 'attachments' => 'required|mimes:xlsx,xls,png,doc,docx,pdf,jpeg,jpg|max:100000',
                 ]);
 
@@ -134,8 +132,14 @@ class TicketController extends Controller
                 $tempTicket->incident_type = $request->incident_type ?? null;
                 $tempTicket->dev_notes = $request->dev_notes ?? null;
                 $tempTicket->user_comments = json_encode($request->user_comments);
-
+// dd($tempTicket->comments);
                 $tempTicket->save();
+
+                foreach ($request->comment as $key => $comment) {
+                    $tempTicket->comments()->create(['comment' => $comment, 'ticket_id'=> $tempTicket->id, 'user_id'=> $user->id]);
+                }
+                // dd($tempTicket->comments);
+
                // Ensure that files are present in the request
                 if ($request->hasFile('attachments')) {
                     $attachments = [];
@@ -169,7 +173,7 @@ class TicketController extends Controller
                 if($user->hasRole('user'))
                 {
                     Mail::to($user->email)->send(new TicketMail($ticket, $user));
-                    Mail::to('support@unicoreonline.com')->send(new AdminMail($ticket, $user));
+                    Mail::to('shoun.side7062@gmail.com')->send(new AdminMail($ticket, $user));
                 }
                 
                 // dd($user->email);
@@ -191,11 +195,15 @@ class TicketController extends Controller
      */
     public function edit($id)
     {
+        $user = Auth::user();
 
         $pageConfigs = ['pageSidebar' => 'ticket'];    
         $ticket = Ticket::findOrFail($id);
         // dd($ticket);
-        return view('Admin.Tickets.edit', compact('ticket', 'id'), ['pageConfigs' => $pageConfigs]);        }
+
+        $comments= $ticket->comments;
+        
+        return view('Admin.Tickets.edit', compact('ticket','comments', 'id','user'), ['pageConfigs' => $pageConfigs]);        }
 
     /**
      * Update the specified resource in storage.
@@ -235,8 +243,6 @@ class TicketController extends Controller
                 $tempTicket->description = $request->description ?? null;
                 $tempTicket->severity = $request->severity ?? null;
                 $tempTicket->incident_type = $request->incident_type ?? null;
-                $tempTicket->dev_notes = $request->dev_notes ?? null;
-                $tempTicket->user_comments = json_encode($request->user_comments);
 
             // Save the store record with the updated data
             $tempTicket->save();
@@ -280,11 +286,13 @@ class TicketController extends Controller
             {
                 Mail::to('support@unicoreonline.com')->send(new AdminMail($ticket, $user));
             }
-            else
+            elseif($user->hasRole('admin'))
             {
+
                 if($ticket->state!="Pending Pick Up")
                 {
                     $user= User::where('email', $ticket->created_by)->first();
+                    dd($user);
 
                     Mail::to($ticket->created_by)->send(new UpdateTicketByAdminMailToUser($ticket, $user));
                 }

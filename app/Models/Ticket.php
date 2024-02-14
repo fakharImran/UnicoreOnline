@@ -6,6 +6,7 @@ use App\Models\Company;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Ticket extends Model
 {
@@ -15,7 +16,7 @@ class Ticket extends Model
     protected $fillable= [
        'company_id', 'state', 'ticket_number' , 
         'created_by','module_name', 'description',
-        'severity', 'incident_type', 'dev_notes', 'user_comments',
+        'severity', 'incident_type',
         'attachments'
     ];
     public $timestamps = true;
@@ -28,5 +29,14 @@ class Ticket extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+    /**
+     * Get all of the comments for the Ticket
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'ticket_id', 'id');
     }
 }

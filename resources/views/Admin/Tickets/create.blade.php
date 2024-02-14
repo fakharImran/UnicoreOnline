@@ -97,10 +97,11 @@
                                                     value='{{ generateUniqueString($companySubStr) }}' name="ticket_number"
                                                     readonly autocomplete="ticket_number" autofocus
                                                     placeholder="Ticket Number">
-                                                {{-- <input type="text" class="form-control" id="ticket_number"
-                                                    value="" name="ticket_number"
-                                                    autocomplete="ticket_number" autofocus placeholder="Ticket Number"> --}}
-                                                {{-- <input type="text" name="your_input_name" value="{{ generateUniqueString('CI') }}" readonly> --}}
+                                                {{-- <input type="text" class="form-control" id="ticket_number" value=""
+                                                name="ticket_number" autocomplete="ticket_number" autofocus
+                                                placeholder="Ticket Number"> --}}
+                                                {{-- <input type="text" name="your_input_name"
+                                                value="{{ generateUniqueString('CI') }}" readonly> --}}
 
                                             </div>
                                         </div>
@@ -112,7 +113,8 @@
                                                 <input type="email" class="form-control" id="created_by"
                                                     value="{{ $user->email }}" name="created_by" readonly
                                                     autocomplete="created_by" autofocus placeholder="Created By">
-                                                {{-- <input type="text" name="your_input_name" value="{{ generateUniqueString('CI') }}" readonly> --}}
+                                                {{-- <input type="text" name="your_input_name"
+                                                value="{{ generateUniqueString('CI') }}" readonly> --}}
 
                                             </div>
                                         </div>
@@ -186,22 +188,23 @@
                                             </div>
                                         </div>
                                         {{-- <div class="attachment-container">
-                                            <div class="label">
-                                                <label>{{ __('Attachment') }}</label>
-                                            </div>
+                                        <div class="label">
+                                            <label>{{ __('Attachment') }}</label>
+                                        </div>
 
-                                            <div class="user_form_content">
-                                                
-                                                <div class="user_input_form">
-                                                    <input type="file" class="form-control attachment-input" name="attachments" required autocomplete="name">
-                                                    @error('attachments.*')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                </div>
+                                        <div class="user_form_content">
+
+                                            <div class="user_input_form">
+                                                <input type="file" class="form-control attachment-input"
+                                                    name="attachments" required autocomplete="name">
+                                                @error('attachments.*')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                                @enderror
                                             </div>
-                                        </div> --}}
+                                        </div>
+                                    </div> --}}
 
                                         <div class="row">
                                             <div class="col-2">
@@ -240,127 +243,120 @@
 
                                             </div>
                                             <div class="col-12">
-                                                <div class="text-decoration-underline clickable-element p-2 float-end text-primary add-new-attachment"
+                                                <div class="text-decoration-underline clickable-element p-2  text-primary add-new-attachment float-end"
                                                     onclick="addNewAttachment()">+Add New Attachment</div>
                                             </div>
-
                                         </div>
-
-
-
-
-                                        {{-- <div class="attachment-container mt-2">
-                                            <div class="label">
-                                                <label>{{ __('Attachment') }}</label>
-                                            </div>
-
-                                            <div class="user_form_content mt-2">
-                                                
-                                                <div class="user_input_form">
-                                                    <div class="attachment-actions">
-                                                        <div class="attachment-remove-link   clickable-element p-2 text-danger float-end" style="display: block" onclick="removeFile(this)">Remove</div>
-                                                        <a href="#" class="attachment-preview-link float-end p-2" style="display: none" target="_blank">Preview</a> &nbsp; &nbsp; &nbsp; &nbsp;
-                                                    </div>
-                                                    <input type="file" class="form-control attachment-input" name="attachments[]" required autocomplete="name" onchange="previewFile(this)">
-                                                    @error('attachments.*')
-                                                        <span class="invalid-feedback" role="alert">
-                                                            <strong>{{ $message }}</strong>
-                                                        </span>
-                                                    @enderror
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div class="text-decoration-underline clickable-element p-2 float-end text-primary add-new-attachment"  onclick="addNewAttachment()">+Add New Attachment</div>
-
-                                        </div> --}}
-
-                                        <div class="user_form_content  mt-2">
-                                            <div class="label">
-                                                <label>{{ __('Dev Notes:') }}</label>
-                                            </div>
-                                            <div class="user_input_form">
-                                                <textarea class="form-control" id="dev_notes" value="" name="dev_notes" autocomplete="dev_notes" autofocus></textarea>
-
-                                            </div>
-                                        </div>
-
-                                            {{-- <div class="label">
-                                                <label>{{ __('User Comments:') }}</label>
-                                            </div> --}}
-
-                                            <div class="row ">
-                                                <div class="col-12" style="margin-top:20px;">
-                                                    <button type="button" class="btn btn-primary float-end">Post</button>
-
+                                        <div class="col-12 ">
+                                            <div class="user_form_content  mt-2">
+                                                <div class="label p-2">
+                                                    @if ($user->hasRole('admin'))
+                                                        <label>{{ __('Dev Notes:') }}</label>
+                                                    @else
+                                                        <label>{{ __('User Comments:') }}</label>
+                                                    @endif
                                                 </div>
 
-                                            </div>
-
-                                        {{-- <div class="label mt-2">
-                                            <label>{{ __('User Comments:') }}</label>
-                                        </div>
-                                        <div class="card">
-                                            <div class="card-body p-4" id="repeater-container">
-
-                                                <div>
-                                                    <div class="user_form_content">
-
-                                                        <div class="user_input_form">
-                                                            <textarea class="form-control" id="user_comments" value="" name="user_comments[]"
-                                                                autocomplete="user_comments" autofocus></textarea>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="  clickable-element p-1 btn btn-danger"
-                                                        onclick="removeRepeaterItem(this)">Delete</div>
-                                                    <hr>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <script>
-                                            function addRepeaterItem() {
-                                                const repeaterContainer = document.getElementById('repeater-container');
-                                                const newItem = document.createElement('div');
-                                                // newItem.classList.add("p-1");
-                                                newItem.innerHTML = `
-                                                <div class="col-10">
-                                                   
+                                                <div class="user_form_content col-10">
                                                     <div class="user_input_form">
-                                                        <textarea  class="form-control" id="user_comments" value="" name="user_comments[]" autocomplete="user_comments" autofocus  ></textarea>
+                                                        <textarea class="form-control" id="post" value="" name="posts" autocomplete="post" autofocus></textarea>
                                                     </div>
                                                 </div>
-                                                    <div  class="  clickable-element p-1 btn btn-danger" onclick="removeRepeaterItem(this)">Delete</div>
-                                                    <hr>
-                                                    
-                                                `;
-                                                // user_input_form
-                                                repeaterContainer.appendChild(newItem);
-                                                initMap();
-                                            }
+                                            </div>
 
-
-                                            function removeRepeaterItem(button) {
-                                                button.parentElement.remove();
-                                            }
-                                        </script>
-
+                                        </div>
                                         <div class="mb-5 p-3">
                                             <div class=" user_btn myborder label float-end">
                                                 <div class=" user_btn_style submit clickable-element"
-                                                    onclick="addRepeaterItem()">Add New</div>
+                                                    onclick="addRepeaterItem()">Post</div>
                                             </div>
                                         </div>
+                                        <div class="col-12">
+                                            <div class="label p-2">
+                                                @if ($user->hasRole('admin'))
+                                                    <label>{{ __('Dev Notes:') }}</label>
+                                                @else
+                                                    <label>{{ __('User Comments:') }}</label>
+                                                @endif
+                                            </div>
 
-                                        <div class="form_title mb-5 pb-2 mt-4"
-                                            style="
-                                        border-bottom: 1px solid #1155CC;
-                                       ">
-                                            <h4>Attachment (Optional)</h4>
+
+                                            <div class="card">
+                                                <div class="card-body p-4" id="repeater-container">
+
+                                                    {{-- <div>
+                                                    <div class="user_form_content col-10">
+
+                                                        <div class="user_input_form">
+                                                            <textarea class="form-control" id="user_posts" value=""
+                                                                name="user_posts[]" autocomplete="user_posts"
+                                                                autofocus></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                </div> --}}
+                                                </div>
+                                            </div>
+                                            <script>
+                                                
+
+
+                                                function addRepeaterItem() 
+                                                {
+                                                    // write an ajax call
+                                                    const repeaterContainer = document.getElementById('repeater-container');
+                                                    const newItem = document.createElement('div');
+                                                    var content = document.getElementById('post').value;
+                                                    var username = {!!json_encode($user->name) !!};
+                                                    // storeComment(username, content);
+
+                                                    newItem.innerHTML = `
+                                                        <div class="col-12">
+                                                            <div class="user_input_form" >
+                                                                <div class='row'  style='background:white; padding:10px;'>
+                                                                    <div class= 'col-8'>
+                                                                        <h5><b>${username}</b></h5>
+                                                                    </div>
+                                                                    <div class='col-2'>
+                                                                        12:00:00
+                                                                    </div> 
+                                                                    <br><br>
+                                                                    <div class='col-8'>
+                                                                        <p id="user_posts" class="editable" contenteditable="true">${content}</p>
+                                                                        <input type= 'text' name='comment[]' value= '${content}' hidden />
+                                                                    </div>
+                                                                    <div class='col-2'>
+                                                                        <button onclick="removeRepeaterItem(this)">
+                                                                            <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                                                                        </button>
+
+                                                                        <button onclick="editRepeaterItem(this)">
+                                                                            <i class="fa fa-pencil-square-o text-secondary" aria-hidden="true"></i>
+                                                                        </button>
+
+                                                                    </div>
+                                                                </div>
+                                                            <br><br><br>
+
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    `;
+                                                    repeaterContainer.appendChild(newItem);
+                                                }
+
+                                                function removeRepeaterItem(button) {
+                                                    button.parentElement.parentElement.parentElement.remove();
+                                                }
+
+                                                function editRepeaterItem(link) {
+                                                    const paragraph = link.parentElement.parentElement.querySelector('.editable');
+                                                    paragraph.contentEditable = 'true';
+                                                    paragraph.focus();
+                                                }
+                                            </script>
+
                                         </div>
-
-                                      --}}
 
                                         <script>
                                             function previewFile(input) {
@@ -406,16 +402,18 @@
                                                 `;
                                                 // user_input_form
                                                 container.appendChild(newItem);
-                                                initMap();
+                                                // initMap();
                                             }
                                         </script>
 
 
 
                                         <div class="user_btn_list">
-                                            {{-- <div class="user_btn text-secondary" >
-                                          <div class="user_btn_style"> <img src="{{asset('assets/images/save.png')}}"> Save Changes</div>
-                                            </div> --}}
+                                            {{-- <div class="user_btn text-secondary">
+                                            <div class="user_btn_style"> <img src="{{asset('assets/images/save.png')}}">
+                                                Save Changes
+                                            </div>
+                                        </div> --}}
                                             <div class="user_btn myborder">
                                                 <button type="submit" class=" user_btn_style submit ">
                                                     <img src="{{ asset('assets/images/next.png') }}" alt="->">
@@ -423,9 +421,11 @@
                                                 </button>
                                             </div>
 
-                                            {{-- <div class="user_btn  text-secondary" >
-                                          <div class="user_btn_style"> <img src="{{asset('assets/images/del_user.png')}}"> Delete User</div>
-                                            </div> --}}
+                                            {{-- <div class="user_btn  text-secondary">
+                                            <div class="user_btn_style"> <img
+                                                    src="{{asset('assets/images/del_user.png')}}"> Delete User
+                                            </div>
+                                        </div> --}}
 
                                             <div class="user_btn myborder" onclick="window.history.go(-1); return false;">
                                                 <button class="user_btn_style submit"> <img
@@ -465,25 +465,25 @@
 
     </div>
     {{-- @php
-    function generateRandomNumber()
-    {
-        // Generate a random number with a length of 4 digits
-        return str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
-    }
+function generateRandomNumber()
+{
+// Generate a random number with a length of 4 digits
+return str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+}
 
-    function generateUniqueString($companyInitials)
-    {
-        // Get the current year
-        $currentYear = date('Y');
+function generateUniqueString($companyInitials)
+{
+// Get the current year
+$currentYear = date('Y');
 
-        // Generate a random number
-        $randomNumber = generateRandomNumber();
+// Generate a random number
+$randomNumber = generateRandomNumber();
 
-        // Combine the elements to create the final string
-        $result = "{$companyInitials}-{$currentYear}-{$randomNumber}";
+// Combine the elements to create the final string
+$result = "{$companyInitials}-{$currentYear}-{$randomNumber}";
 
-        return $result;
-    }
+return $result;
+}
 @endphp --}}
 
     <script>
