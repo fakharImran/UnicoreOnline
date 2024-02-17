@@ -212,8 +212,7 @@ class TicketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($requcode .
-        est->existing_attachments);
+        // dd($request->existing_attachments);
         $validator = Validator::make($request->all(), [
             'state' => 'required',
             'ticket_number' => 'required',
