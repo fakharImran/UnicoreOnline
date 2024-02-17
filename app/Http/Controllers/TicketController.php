@@ -112,11 +112,12 @@ class TicketController extends Controller
                         return redirect()->back()->withErrors("Company Name is Required")->withInput();
                     }
                 $company_id= $request->company_id;
-
+                    $comment_type = "dev";
                 }
                 else
                 {
                     $company_id= $user->companyUser->company->id;
+                    $comment_type = "user";
                 }
                 
                
@@ -130,14 +131,15 @@ class TicketController extends Controller
                 $tempTicket->description = $request->description ?? null;
                 $tempTicket->severity = $request->severity ?? null;
                 $tempTicket->incident_type = $request->incident_type ?? null;
-                $tempTicket->dev_notes = $request->dev_notes ?? null;
-                $tempTicket->user_comments = json_encode($request->user_comments);
+                
 // dd($tempTicket->comments);
                 $tempTicket->save();
-
-                foreach ($request->comment as $key => $comment) {
-                    $tempTicket->comments()->create(['comment' => $comment, 'ticket_id'=> $tempTicket->id, 'user_id'=> $user->id]);
+                if($request->comment){
+                    foreach ($request->comment as $key => $comment) {
+                        $tempTicket->comments()->create(['comment' => $comment, 'ticket_id'=> $tempTicket->id, 'user_id'=> $user->id, 'comment_type' => $comment_type]);
+                    }
                 }
+                
                 // dd($tempTicket->comments);
 
                // Ensure that files are present in the request
@@ -201,7 +203,7 @@ class TicketController extends Controller
         $ticket = Ticket::findOrFail($id);
         // dd($ticket);
 
-        $comments= $ticket->comments;
+        $comments= $ticket->comments()->orderBy('created_at', 'desc')->get();;
         
         return view('Admin.Tickets.edit', compact('ticket','comments', 'id','user'), ['pageConfigs' => $pageConfigs]);        }
 
@@ -210,7 +212,8 @@ class TicketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // dd($request->existing_attachments);
+        // dd($requcode .
+        est->existing_attachments);
         $validator = Validator::make($request->all(), [
             'state' => 'required',
             'ticket_number' => 'required',

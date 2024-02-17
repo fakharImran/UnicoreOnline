@@ -449,8 +449,7 @@
 
                                     <div class="user_form_content col-12">
                                         <div class="user_input_form">
-                                            <textarea class="form-control" id="post" value="" rows="4" name="posts"
-                                                autofocus></textarea>
+                                            <textarea class="form-control" id="post" value="" rows="4" name="posts" autofocus></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -466,17 +465,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row mt-4">
-                            <div class="col-12 ">
-                                @if ($user->hasRole('admin'))
-                                    <label>{{ __('Dev Notes:') }}</label>
-                                @else
-                                    <label>{{ __('User Comments:') }}</label>
-                                @endif
-                            </div>
-                        </div>
-
                         @php
                             function getInitials($name)
                             {
@@ -490,67 +478,159 @@
                                 return $initials;
                             }
                         @endphp
+                        <div class="row mt-4">
+                            <div class="col-12 ">
+                                <label>{{ __('Dev Notes:') }}</label>
+                            </div>
+                        </div>
                         <div class="card">
-                            <div class="card-body p-4" id="repeater-container">
+                            <div class="card-body p-4" id="repeater-container-dev">
                                 @if ($comments != [])
                                     @foreach ($comments as $comment)
-                                        <div>
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="media g-mb-30 media-comment  d-flex">
-                                                            <div data-initials="{{ getInitials($comment->user->name) }}">
-                                                            </div>
-                                                            <div
-                                                                class="media-body u-shadow-v18 g-bg-secondary g-pa-30 w-100">
-                                                                <div class="g-mb-15">
-                                                                    <h5 class="h5 g-color-gray-dark-v1 mb-0">
-                                                                        {{ $comment->user->name }}</h5>
-                                                                    <div class="d-flex ">
-                                                                        <span class="g-color-gray-dark-v4 g-font-size-12">
-                                                                            {{ $comment->updated_at }}</span>
-                                                                        @if ($user->id === $comment->user->id ||( Auth::check() && $user->hasRole('admin')) )
-                                                                            <div class="ms-4"
-                                                                                onclick="removeRepeaterItem(this, {{ $comment->id }})">
-                                                                                <i class="fa fa-trash-o text-dark w-75"
-                                                                                    aria-hidden="true"></i>
-                                                                            </div>
-                                                                            <div class="ms-3"
-                                                                                onclick="editRepeaterItem(this, {{ $comment->id }})">
-                                                                                <i class="fa fa-pencil-square-o text-secondary  w-75"
-                                                                                    aria-hidden="true"></i>
-                                                                            </div>
-                                                                        @endif
-                                                                    </div>
+                                        @if ($comment->comment_type == 'dev')
+                                            <div>
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="media g-mb-30 media-comment dev-comment d-flex">
+                                                                <div
+                                                                    data-initials="{{ getInitials($comment->user->name) }}">
                                                                 </div>
-                                                                <div id="comment-place">
-                                                                    <div class="user_input_form" style="display: none;">
-                                                                        <textarea class="form-control" id="comment" name="comment" autofocus>{{ $comment->comment }}</textarea>
+                                                                <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30 w-100"
+                                                                    style="max-width:90%">
+                                                                    <div class="g-mb-15 d-flex"
+                                                                        style="justify-content: space-between;">
+                                                                        <h5 class="h5 g-color-gray-dark-v1 mb-0">
+                                                                            {{ $comment->user->name }}</h5>
+                                                                        <div class="d-flex ">
+                                                                            <span
+                                                                                class="g-color-gray-dark-v4 g-font-size-12">
+                                                                                {{ $comment->updated_at }}</span>
+                                                                            @if ($user->id === $comment->user->id || (Auth::check() && $user->hasRole('admin')))
+                                                                                <div class="ms-4"
+                                                                                    onclick="removeRepeaterItem(this, {{ $comment->id }})">
+                                                                                    <i class="fa fa-trash-o text-dark w-75"
+                                                                                        aria-hidden="true"></i>
+                                                                                </div>
+                                                                                <div class="ms-3"
+                                                                                    onclick="editRepeaterItem(this, {{ $comment->id }})">
+                                                                                    <i class="fa fa-pencil-square-o text-secondary  w-75"
+                                                                                        aria-hidden="true"></i>
+                                                                                </div>
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="comment-place" class="my-3">
+                                                                        <div class="user_input_form"
+                                                                            style="display: none;">
+                                                                            <textarea class="form-control" id="comment" name="comment" autofocus>{{ $comment->comment }}</textarea>
+                                                                        </div>
+
+                                                                        <p>{{ $comment->comment }}</p>
                                                                     </div>
 
-                                                                    <p>{{ $comment->comment }}</p>
+
+                                                                    <ul class="list-inline w-100  my-0 submit-button"
+                                                                        style="justify-content: flex-end; display:none;">
+                                                                        <li class="list-inline-item ml-auto">
+                                                                            <button
+                                                                                onclick="editRepeaterComment(this, {{ $comment->id }})"
+                                                                                class="btn btn-light u-link-v5 g-color-gray-dark-v4 g-color-primary--hover">
+                                                                                <i
+                                                                                    class="fa fa-paper-plane g-pos-rel g-top-1 g-mr-3"></i>
+                                                                                Submit
+                                                                            </button>
+                                                                        </li>
+                                                                    </ul>
                                                                 </div>
-
-
-                                                                <ul class="list-inline w-100  my-0 submit-button"
-                                                                    style="justify-content: flex-end; display:none;">
-                                                                    <li class="list-inline-item ml-auto">
-                                                                        <button onclick="editRepeaterComment(this, {{ $comment->id }})"
-                                                                            class="btn btn-light u-link-v5 g-color-gray-dark-v4 g-color-primary--hover">
-                                                                            <i
-                                                                                class="fa fa-paper-plane g-pos-rel g-top-1 g-mr-3"></i>
-                                                                            Submit
-                                                                        </button>
-                                                                    </li>
-                                                                </ul>
                                                             </div>
                                                         </div>
+
+
                                                     </div>
-
-
                                                 </div>
                                             </div>
-                                        </div>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-12 ">
+                                <label>{{ __('User Comments:') }}</label>
+                            </div>
+                        </div>
+
+
+                        <div class="card">
+                            <div class="card-body p-4" id="repeater-container-user">
+                                @if ($comments != [])
+                                    @foreach ($comments as $comment)
+                                        @if ($comment->comment_type == 'user')
+                                            <div>
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="media g-mb-30 media-comment user-comment  d-flex">
+                                                                <div
+                                                                    data-initials="{{ getInitials($comment->user->name) }}">
+                                                                </div>
+                                                                <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30 w-100"
+                                                                    style="max-width:90%">
+                                                                    <div class="g-mb-15 d-flex"
+                                                                        style="justify-content: space-between;">
+                                                                        <h5 class="h5 g-color-gray-dark-v1 mb-0">
+                                                                            {{ $comment->user->name }}</h5>
+                                                                        <div class="d-flex ">
+                                                                            <span
+                                                                                class="g-color-gray-dark-v4 g-font-size-12">
+                                                                                {{ $comment->updated_at }}</span>
+                                                                            @if ($user->id === $comment->user->id || (Auth::check() && $user->hasRole('admin')))
+                                                                                <div class="ms-4"
+                                                                                    onclick="removeRepeaterItem(this, {{ $comment->id }})">
+                                                                                    <i class="fa fa-trash-o text-dark w-75"
+                                                                                        aria-hidden="true"></i>
+                                                                                </div>
+                                                                                <div class="ms-3"
+                                                                                    onclick="editRepeaterItem(this, {{ $comment->id }})">
+                                                                                    <i class="fa fa-pencil-square-o text-secondary  w-75"
+                                                                                        aria-hidden="true"></i>
+                                                                                </div>
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="comment-place" class="my-3">
+                                                                        <div class="user_input_form"
+                                                                            style="display: none;">
+                                                                            <textarea class="form-control" id="comment" name="comment" autofocus>{{ $comment->comment }}</textarea>
+                                                                        </div>
+
+                                                                        <p>{{ $comment->comment }}</p>
+                                                                    </div>
+
+
+                                                                    <ul class="list-inline w-100  my-0 submit-button"
+                                                                        style="justify-content: flex-end; display:none;">
+                                                                        <li class="list-inline-item ml-auto">
+                                                                            <button
+                                                                                onclick="editRepeaterComment(this, {{ $comment->id }})"
+                                                                                class="btn btn-light u-link-v5 g-color-gray-dark-v4 g-color-primary--hover">
+                                                                                <i
+                                                                                    class="fa fa-paper-plane g-pos-rel g-top-1 g-mr-3"></i>
+                                                                                Submit
+                                                                            </button>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endif
                                     @endforeach
                                 @endif
                             </div>
@@ -590,72 +670,56 @@
                                 });
 
                                 function handleSuccess(comment, content, user_id, ticket_id, time) {
-                                    const repeaterContainer = document.getElementById('repeater-container');
+                                    var userrole = {!! json_encode($user->hasRole('admin')) !!} ? 'admin' : 'user';
+                                    var repeater_container = userrole == 'admin'?'repeater-container-dev':'repeater-container-user'
+                                    const repeaterContainer = document.getElementById(repeater_container);
                                     const newItem = document.createElement('div');
 
                                     var username = {!! json_encode($user->name) !!};
-
                                     console.log("comment_id IS ", comment.id);
+
                                     newItem.innerHTML = `
-                                    <div class="container">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <div class="media g-mb-30 media-comment  d-flex">
-                                                            <div data-initials="${getInitials(username)}">
-                                                            </div>
-                                                            <div
-                                                                class="media-body u-shadow-v18 g-bg-secondary g-pa-30 w-100">
-                                                                <div class="g-mb-15">
-                                                                    <h5 class="h5 g-color-gray-dark-v1 mb-0">
-                                                                        ${username }</h5>
-                                                                    <div class="d-flex ">
-                                                                        <span class="g-color-gray-dark-v4 g-font-size-12">
-                                                                            ${time }</span>
-                                                                        <div class="ms-4"
-                                                                            onclick="removeRepeaterItem(this, ${comment.id })">
-                                                                            <i class="fa fa-trash-o text-dark w-75"
-                                                                                aria-hidden="true"></i>
-                                                                        </div>
-
-                                                                        <div class="ms-3"
-                                                                            onclick="editRepeaterItem(this, ${comment.id })">
-                                                                            <i class="fa fa-pencil-square-o text-secondary  w-75"
-                                                                                aria-hidden="true"></i>
-                                                                        </div>
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="media g-mb-30 media-comment ${userrole == 'admin' ? 'dev-comment' : 'user-comment'} d-flex">
+                                                        <div data-initials="${getInitials(username)}"></div>
+                                                        <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30 w-100" style="max-width:90%">
+                                                            <div class="g-mb-15 d-flex" style="justify-content: space-between;">
+                                                                <h5 class="h5 g-color-gray-dark-v1 mb-0">${username}</h5>
+                                                                <div class="d-flex ">
+                                                                    <span class="g-color-gray-dark-v4 g-font-size-12">${time}</span>
+                                                                    <div class="ms-4" onclick="removeRepeaterItem(this, ${comment.id })">
+                                                                        <i class="fa fa-trash-o text-dark w-75" aria-hidden="true"></i>
                                                                     </div>
-
-
-                                                                </div>
-                                                                <div id="comment-place">
-                                                                    <div class="user_input_form" style="display: none;">
-                                                                        <textarea class="form-control" id="comment" name="comment" autofocus>${comment.comment }</textarea>
+                                                                    <div class="ms-3" onclick="editRepeaterItem(this, ${comment.id })">
+                                                                        <i class="fa fa-pencil-square-o text-secondary w-75" aria-hidden="true"></i>
                                                                     </div>
-
-                                                                    <p>${comment.comment }</p>
                                                                 </div>
-
-
-                                                                <ul class="list-inline w-100  my-0 submit-button"
-                                                                    style="justify-content: flex-end; display:none;">
-                                                                    <li class="list-inline-item ml-auto">
-                                                                        <button onclick="editRepeaterComment(this, ${comment.id })"
-                                                                            class="btn btn-light u-link-v5 g-color-gray-dark-v4 g-color-primary--hover">
-                                                                            <i
-                                                                                class="fa fa-paper-plane g-pos-rel g-top-1 g-mr-3"></i>
-                                                                            Submit
-                                                                        </button>
-                                                                    </li>
-                                                                </ul>
                                                             </div>
+                                                            <div id="comment-place" class="my-3">
+                                                                <div class="user_input_form" style="display: none;">
+                                                                    <textarea class="form-control" id="comment" name="comment" autofocus>${comment.comment}</textarea>
+                                                                </div>
+                                                                <p>${comment.comment}</p>
+                                                            </div>
+                                                            <ul class="list-inline w-100 my-0 submit-button" style="justify-content: flex-end; display:none;">
+                                                                <li class="list-inline-item ml-auto">
+                                                                    <button onclick="editRepeaterComment(this, ${comment.id })" class="btn btn-light u-link-v5 g-color-gray-dark-v4 g-color-primary--hover">
+                                                                        <i class="fa fa-paper-plane g-pos-rel g-top-1 g-mr-3"></i>
+                                                                        Submit
+                                                                    </button>
+                                                                </li>
+                                                            </ul>
                                                         </div>
                                                     </div>
-
-
                                                 </div>
                                             </div>
-                                                `;
+                                        </div>`;
                                     // user_input_form
-                                    repeaterContainer.appendChild(newItem);
+                                    var firstChild = repeaterContainer.firstChild;
+                                    repeaterContainer.insertBefore(newItem, firstChild);
+                                    // repeaterContainer.appendChild(newItem);
                                 }
 
                             }
@@ -665,10 +729,10 @@
                                 var user_id = {!! json_encode($user->id) !!};
                                 var ticket_id = {!! json_encode($ticket->id) !!};
                                 var comment_id = storeComment(content, user_id, ticket_id);
-                                document.getElementById('post').value="";
+                                document.getElementById('post').value = "";
                             }
 
-                            
+
                             // Example usage
                             function editRepeaterItem(element, commentId) {
                                 // Hide the comment input field
@@ -680,7 +744,7 @@
                                 if (componentButton) {
                                     componentButton.style.display = 'flex';
                                 }
-                               
+
 
                                 // Hide the comment text
                                 var commentText = element.closest('.media-comment').querySelector('p');

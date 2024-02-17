@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Comment extends Model
 {
     use HasFactory;
-    protected $fillable = ['comment', 'user_id', 'ticket_id'];
+    protected $fillable = ['comment', 'user_id', 'ticket_id', 'comment_type'];
     /**
      * Get the ticket that owns the Comment
      *

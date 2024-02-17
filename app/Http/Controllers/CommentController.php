@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
@@ -34,12 +35,13 @@ class CommentController extends Controller
             'ticket_id' => 'required|exists:tickets,id', // Ensure ticket_id exists in tickets table
         ]);
         // return response()->json($request->all(), 200);
-    
+            $user = Auth::user();
             // Create a new comment
             $comment = new Comment();
             $comment->comment = $request->input('content');
             $comment->user_id = (int)$request->input('user_id'); // Typecast to integer
             $comment->ticket_id = (int)$request->input('ticket_id'); // Typecast to integer
+            $comment->comment_type = $user->hasRole('admin')?"dev":"user"; // Typecast to integer
             $comment->save();
             // $newcomment = Comment::find($comment->id)->first();
             $updated_at = date('Y-m-d H:i:s', strtotime($comment->updated_at));

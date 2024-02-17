@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('ticket_id');
             $table->foreign('ticket_id')->references('id')->on('tickets')->onDelete('cascade');
             $table->string('comment');
+            $table->string("comment_type");
             $table->timestamps();
         });
     }
